@@ -1,0 +1,15 @@
+D:/CG_UFPel/CG_UFPel/Saida/CMakeFiles/INSTALL.dir
+D:/CG_UFPel/CG_UFPel/Saida/CMakeFiles/CG_UFPel.dir
+D:/CG_UFPel/CG_UFPel/Saida/CMakeFiles/ALL_BUILD.dir
+D:/CG_UFPel/CG_UFPel/Saida/CMakeFiles/ZERO_CHECK.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/CMakeFiles/GLEW_190.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/CMakeFiles/ANTTWEAKBAR_116_OGLCORE_GLFW.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/CMakeFiles/INSTALL.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/glfw-3.0.3/CMakeFiles/INSTALL.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/glfw-3.0.3/CMakeFiles/ALL_BUILD.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/glfw-3.0.3/src/CMakeFiles/GLFW_303.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/glfw-3.0.3/src/CMakeFiles/INSTALL.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/assimp-3.0.1270/contrib/zlib/CMakeFiles/INSTALL.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/assimp-3.0.1270/code/CMakeFiles/assimp.dir
+D:/CG_UFPel/CG_UFPel/Saida/external/assimp-3.0.1270/code/CMakeFiles/INSTALL.dir

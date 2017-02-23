@@ -1,0 +1,4 @@
+﻿  Building Custom Rule D:/CG_UFPel/CG_UFPel/external/CMakeLists.txt
+  CMake does not need to re-run because D:\CG_UFPel\CG_UFPel\Saida\external\CMakeFiles\generate.stamp is up-to-date.
+  glew.c
+  GLEW_190.vcxproj -> D:\CG_UFPel\CG_UFPel\Saida\external\Debug\GLEW_190.lib

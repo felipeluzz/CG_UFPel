@@ -1,0 +1,18 @@
+﻿  Building Custom Rule D:/CG_UFPel/CG_UFPel/CMakeLists.txt
+  CMake does not need to re-run because D:\CG_UFPel\CG_UFPel\Saida\CMakeFiles\generate.stamp is up-to-date.
+  controls.cpp
+  main.cpp
+D:\CG_UFPel\CG_UFPel\sources\main.cpp(262): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  objloader.cpp
+  quaternion_utils.cpp
+  shader.cpp
+  tangentspace.cpp
+  text2D.cpp
+D:\CG_UFPel\CG_UFPel\sources\text2D.cpp(40): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\CG_UFPel\CG_UFPel\sources\text2D.cpp(104): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  texture.cpp
+  vboindexer.cpp
+  glerror.cpp
+  Generating Code...
+     Creating library D:/CG_UFPel/CG_UFPel/Saida/Debug/CG_UFPel.lib and object D:/CG_UFPel/CG_UFPel/Saida/Debug/CG_UFPel.exp
+  CG_UFPel.vcxproj -> D:\CG_UFPel\CG_UFPel\Saida\Debug\CG_UFPel.exe
