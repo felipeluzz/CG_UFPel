@@ -395,7 +395,7 @@ int CTwGraphOpenGLCore::Shut()
 
 void CTwGraphOpenGLCore::BeginDraw(int _WndWidth, int _WndHeight)
 {
-    CHECK_GL_ERROR;
+    //CHECK_GL_ERROR;
     assert(m_Drawing==false && _WndWidth>0 && _WndHeight>0);
     m_Drawing = true;
     m_WndWidth = _WndWidth;
@@ -403,7 +403,7 @@ void CTwGraphOpenGLCore::BeginDraw(int _WndWidth, int _WndHeight)
     m_OffsetX = 0;
     m_OffsetY = 0;
 
-    _glGetIntegerv(GL_VIEWPORT, m_PrevViewport); CHECK_GL_ERROR;
+    _glGetIntegerv(GL_VIEWPORT, m_PrevViewport); //CHECK_GL_ERROR;
     if( _WndWidth>0 && _WndHeight>0 )
     {
         GLint Vp[4];
@@ -415,48 +415,48 @@ void CTwGraphOpenGLCore::BeginDraw(int _WndWidth, int _WndHeight)
     }
 
     m_PrevVArray = 0;
-    _glGetIntegerv(GL_VERTEX_ARRAY_BINDING, (GLint*)&m_PrevVArray); CHECK_GL_ERROR;
-    _glBindVertexArray(0); CHECK_GL_ERROR;
+    _glGetIntegerv(GL_VERTEX_ARRAY_BINDING, (GLint*)&m_PrevVArray); //CHECK_GL_ERROR;
+    _glBindVertexArray(0); //CHECK_GL_ERROR;
 
     m_PrevLineWidth = 1;
-    _glGetFloatv(GL_LINE_WIDTH, &m_PrevLineWidth); CHECK_GL_ERROR;
-    _glLineWidth(1); CHECK_GL_ERROR;
+    _glGetFloatv(GL_LINE_WIDTH, &m_PrevLineWidth); //CHECK_GL_ERROR;
+    _glLineWidth(1); //CHECK_GL_ERROR;
 
     m_PrevLineSmooth = _glIsEnabled(GL_LINE_SMOOTH);
-    _glDisable(GL_LINE_SMOOTH); CHECK_GL_ERROR;
+    _glDisable(GL_LINE_SMOOTH); //CHECK_GL_ERROR;
 
     m_PrevCullFace = _glIsEnabled(GL_CULL_FACE);
-    _glDisable(GL_CULL_FACE); CHECK_GL_ERROR;
+    _glDisable(GL_CULL_FACE); //CHECK_GL_ERROR;
     
     m_PrevDepthTest = _glIsEnabled(GL_DEPTH_TEST);
-    _glDisable(GL_DEPTH_TEST); CHECK_GL_ERROR;
+    _glDisable(GL_DEPTH_TEST);// CHECK_GL_ERROR;
 
     m_PrevBlend = _glIsEnabled(GL_BLEND);
-    _glEnable(GL_BLEND); CHECK_GL_ERROR;
+    _glEnable(GL_BLEND); //CHECK_GL_ERROR;
 
     m_PrevScissorTest = _glIsEnabled(GL_SCISSOR_TEST);
-    _glDisable(GL_SCISSOR_TEST); CHECK_GL_ERROR;
+    _glDisable(GL_SCISSOR_TEST);// CHECK_GL_ERROR;
 
-    _glGetIntegerv(GL_SCISSOR_BOX, m_PrevScissorBox); CHECK_GL_ERROR;
+    _glGetIntegerv(GL_SCISSOR_BOX, m_PrevScissorBox); //CHECK_GL_ERROR;
 
-    _glGetIntegerv(GL_BLEND_SRC, &m_PrevSrcBlend); CHECK_GL_ERROR;
-    _glGetIntegerv(GL_BLEND_DST, &m_PrevDstBlend); CHECK_GL_ERROR;
-    _glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); CHECK_GL_ERROR;
+    _glGetIntegerv(GL_BLEND_SRC, &m_PrevSrcBlend); //CHECK_GL_ERROR;
+    _glGetIntegerv(GL_BLEND_DST, &m_PrevDstBlend);// CHECK_GL_ERROR;
+    _glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //CHECK_GL_ERROR;
 
     m_PrevTexture = 0;
-    _glGetIntegerv(GL_TEXTURE_BINDING_2D, &m_PrevTexture); CHECK_GL_ERROR;
-    _glBindTexture(GL_TEXTURE_2D, 0); CHECK_GL_ERROR;
+    _glGetIntegerv(GL_TEXTURE_BINDING_2D, &m_PrevTexture); //CHECK_GL_ERROR;
+    _glBindTexture(GL_TEXTURE_2D, 0); //CHECK_GL_ERROR;
 
     m_PrevProgramObject = 0;
-    _glGetIntegerv(GL_CURRENT_PROGRAM, (GLint*)&m_PrevProgramObject); CHECK_GL_ERROR;
-    _glBindVertexArray(0); CHECK_GL_ERROR;
-    _glUseProgram(0); CHECK_GL_ERROR;  
+    _glGetIntegerv(GL_CURRENT_PROGRAM, (GLint*)&m_PrevProgramObject); //CHECK_GL_ERROR;
+    _glBindVertexArray(0); //CHECK_GL_ERROR;
+    _glUseProgram(0);// CHECK_GL_ERROR;  
 
     m_PrevActiveTexture = 0;
-    _glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&m_PrevActiveTexture); CHECK_GL_ERROR;
+    _glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&m_PrevActiveTexture); //CHECK_GL_ERROR;
     _glActiveTexture(GL_TEXTURE0);
 
-    CHECK_GL_ERROR;
+    //CHECK_GL_ERROR;
 }
 
 //  ---------------------------------------------------------------------------
@@ -466,66 +466,66 @@ void CTwGraphOpenGLCore::EndDraw()
     assert(m_Drawing==true);
     m_Drawing = false;
 
-    _glLineWidth(m_PrevLineWidth); CHECK_GL_ERROR;
+    _glLineWidth(m_PrevLineWidth); //CHECK_GL_ERROR;
 
     if( m_PrevLineSmooth )
     {
-      _glEnable(GL_LINE_SMOOTH); CHECK_GL_ERROR;
+      _glEnable(GL_LINE_SMOOTH);// CHECK_GL_ERROR;
     }
     else
     {
-      _glDisable(GL_LINE_SMOOTH); CHECK_GL_ERROR;      
+      _glDisable(GL_LINE_SMOOTH); //CHECK_GL_ERROR;      
     }
 
     if( m_PrevCullFace )
     {
-      _glEnable(GL_CULL_FACE); CHECK_GL_ERROR;
+      _glEnable(GL_CULL_FACE); //CHECK_GL_ERROR;
     }
     else
     {
-      _glDisable(GL_CULL_FACE); CHECK_GL_ERROR;      
+      _glDisable(GL_CULL_FACE); //CHECK_GL_ERROR;      
     }
 
     if( m_PrevDepthTest )
     {
-      _glEnable(GL_DEPTH_TEST); CHECK_GL_ERROR;
+      _glEnable(GL_DEPTH_TEST); //CHECK_GL_ERROR;
     }
     else
     {
-      _glDisable(GL_DEPTH_TEST); CHECK_GL_ERROR;      
+      _glDisable(GL_DEPTH_TEST); //CHECK_GL_ERROR;      
     }
 
     if( m_PrevBlend )
     {
-      _glEnable(GL_BLEND); CHECK_GL_ERROR;
+      _glEnable(GL_BLEND); //CHECK_GL_ERROR;
     }
     else
     {
-      _glDisable(GL_BLEND); CHECK_GL_ERROR;      
+      _glDisable(GL_BLEND); //CHECK_GL_ERROR;      
     }
 
     if( m_PrevScissorTest )
     {
-      _glEnable(GL_SCISSOR_TEST); CHECK_GL_ERROR;
+      _glEnable(GL_SCISSOR_TEST); //CHECK_GL_ERROR;
     }
     else
     {
-      _glDisable(GL_SCISSOR_TEST); CHECK_GL_ERROR;      
+      _glDisable(GL_SCISSOR_TEST); //CHECK_GL_ERROR;      
     }
 
-    _glScissor(m_PrevScissorBox[0], m_PrevScissorBox[1], m_PrevScissorBox[2], m_PrevScissorBox[3]); CHECK_GL_ERROR;
+    _glScissor(m_PrevScissorBox[0], m_PrevScissorBox[1], m_PrevScissorBox[2], m_PrevScissorBox[3]); //CHECK_GL_ERROR;
 
-    _glBlendFunc(m_PrevSrcBlend, m_PrevDstBlend); CHECK_GL_ERROR;
+    _glBlendFunc(m_PrevSrcBlend, m_PrevDstBlend); //CHECK_GL_ERROR;
 
-    _glBindTexture(GL_TEXTURE_2D, m_PrevTexture); CHECK_GL_ERROR;
+    _glBindTexture(GL_TEXTURE_2D, m_PrevTexture);// CHECK_GL_ERROR;
 
-    _glUseProgram(m_PrevProgramObject); CHECK_GL_ERROR;
+    _glUseProgram(m_PrevProgramObject);// CHECK_GL_ERROR;
     
-    _glBindVertexArray(m_PrevVArray); CHECK_GL_ERROR;
+    _glBindVertexArray(m_PrevVArray);// CHECK_GL_ERROR;
 
-    _glViewport(m_PrevViewport[0], m_PrevViewport[1], m_PrevViewport[2], m_PrevViewport[3]); CHECK_GL_ERROR;
+    _glViewport(m_PrevViewport[0], m_PrevViewport[1], m_PrevViewport[2], m_PrevViewport[3]);// CHECK_GL_ERROR;
 
-    CHECK_GL_ERROR;
+   // CHECK_GL_ERROR;
 }
 
 //  ---------------------------------------------------------------------------
@@ -560,7 +560,7 @@ static inline float ToNormScreenY(float y, int wndHeight)
 
 void CTwGraphOpenGLCore::DrawLine(int _X0, int _Y0, int _X1, int _Y1, color32 _Color0, color32 _Color1, bool _AntiAliased)
 {
-    CHECK_GL_ERROR;
+    //CHECK_GL_ERROR;
     assert(m_Drawing==true);
 
     //const GLfloat dx = +0.0f;
@@ -596,14 +596,14 @@ void CTwGraphOpenGLCore::DrawLine(int _X0, int _Y0, int _X1, int _Y1, color32 _C
     if( _AntiAliased )
         _glDisable(GL_LINE_SMOOTH);
 
-    CHECK_GL_ERROR;
+    //CHECK_GL_ERROR;
 }
   
 //  ---------------------------------------------------------------------------
 
 void CTwGraphOpenGLCore::DrawRect(int _X0, int _Y0, int _X1, int _Y1, color32 _Color00, color32 _Color10, color32 _Color01, color32 _Color11)
 {
-    CHECK_GL_ERROR;
+    //CHECK_GL_ERROR;
     assert(m_Drawing==true);
 
     // border adjustment
@@ -637,7 +637,7 @@ void CTwGraphOpenGLCore::DrawRect(int _X0, int _Y0, int _X1, int _Y1, color32 _C
     _glUseProgram(m_LineRectProgram);
     _glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-    CHECK_GL_ERROR;
+    //CHECK_GL_ERROR;
 }
 
 //  ---------------------------------------------------------------------------
@@ -748,7 +748,7 @@ void CTwGraphOpenGLCore::BuildText(void *_TextObj, const std::string *_TextLines
 
 void CTwGraphOpenGLCore::DrawText(void *_TextObj, int _X, int _Y, color32 _Color, color32 _BgColor)
 {
-    CHECK_GL_ERROR;
+    //CHECK_GL_ERROR;
     assert(m_Drawing==true);
     assert(_TextObj!=NULL);
     CTextObj *TextObj = static_cast<CTextObj *>(_TextObj);
@@ -840,7 +840,7 @@ void CTwGraphOpenGLCore::DrawText(void *_TextObj, int _X, int _Y, color32 _Color
         _glDrawArrays(GL_TRIANGLES, 0, (GLsizei)TextObj->m_TextVerts.size());
     }
 
-    CHECK_GL_ERROR;
+    //CHECK_GL_ERROR;
 }
 
 //  ---------------------------------------------------------------------------

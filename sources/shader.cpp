@@ -11,6 +11,8 @@ using namespace std;
 
 #include <GL/glew.h>
 
+#include <glerror.hpp>
+
 #include "shader.hpp"
 
 GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path){
@@ -56,6 +58,8 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 	glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL);
 	glCompileShader(VertexShaderID);
 
+	check_gl_error();
+
 	// Check Vertex Shader
 	glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Result);
 	glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
@@ -65,13 +69,15 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 		printf("%s\n", &VertexShaderErrorMessage[0]);
 	}
 
-
+	check_gl_error();
 
 	// Compile Fragment Shader
 	printf("Compiling shader : %s\n", fragment_file_path);
 	char const * FragmentSourcePointer = FragmentShaderCode.c_str();
 	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL);
 	glCompileShader(FragmentShaderID);
+
+	check_gl_error();
 
 	// Check Fragment Shader
 	glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Result);
@@ -82,7 +88,7 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 		printf("%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
-
+	check_gl_error();
 
 	// Link the program
 	printf("Linking program\n");
@@ -90,6 +96,8 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 	glAttachShader(ProgramID, VertexShaderID);
 	glAttachShader(ProgramID, FragmentShaderID);
 	glLinkProgram(ProgramID);
+
+	check_gl_error();
 
 	// Check the program
 	glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
@@ -99,6 +107,8 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 		glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
 		printf("%s\n", &ProgramErrorMessage[0]);
 	}
+
+	check_gl_error();
 
 	glDeleteShader(VertexShaderID);
 	glDeleteShader(FragmentShaderID);

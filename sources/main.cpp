@@ -50,6 +50,7 @@ void WindowSizeCallBack(GLFWwindow *pWindow, int nWidth, int nHeight) {
 int main(void)
 {
 	int nUseMouse = 0;
+	
 
 	// Initialise GLFW
 	if (!glfwInit())
@@ -123,7 +124,7 @@ int main(void)
 	glBindVertexArray(VertexArrayID);
 
 	// Create and compile our GLSL program from the shaders
-	GLuint programID = LoadShaders("shaders/StandardShading.vertexshader", "shaders/StandardShading.fragmentshader");
+	GLuint programID = LoadShaders("shaders/StandardShading.vertexshader", "shaders/CookTorrance.fragmentshader");
 
 	std::vector<std::pair<int, int>> contagemVizinhos;  //Vector onde fica a contagem dos vizinhos
 	std::vector<std::set<unsigned short> > vizinhos; //Vector que contém os vizinhos dos vértices
@@ -179,7 +180,7 @@ int main(void)
 
 
 	do{
-        check_gl_error();
+        //check_gl_error();
 
 		/*if (glfwGetKey(g_pWindow, GLFW_KEY_L) == GLFW_PRESS) //Se o usuário pressionar L, muda o para o modo de "linhas"
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
