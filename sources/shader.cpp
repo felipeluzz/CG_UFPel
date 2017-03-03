@@ -110,6 +110,8 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 
 	check_gl_error();
 
+	
+
 	glDeleteShader(VertexShaderID);
 	glDeleteShader(FragmentShaderID);
 

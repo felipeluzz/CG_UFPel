@@ -103,6 +103,25 @@ int main(void)
 	int meshID = 0;
 	TwAddVarRW(g_pToolBar, "MeshID", TW_TYPE_INT8, &meshID, "label = 'MehsID'");
 
+	//Adiciona "cor" a barra
+	float corR = 0.9;
+	TwAddVarRW(g_pToolBar, "CorR", TW_TYPE_FLOAT, &corR, "min=0 max=1 step=0.1 label = 'Cor R'");
+	float corG = 0.1;
+	TwAddVarRW(g_pToolBar, "CorG", TW_TYPE_FLOAT, &corG, "min=0 max=1 step=0.1 label = 'Cor G'");
+	float corB = 0.5;
+	TwAddVarRW(g_pToolBar, "CorB", TW_TYPE_FLOAT, &corB, "min=0 max=1 step=0.1 label = 'Cor B'");
+
+	//Adicona "roughness" a barra
+	float roughness = 0.3;
+	TwAddVarRW(g_pToolBar, "roughness", TW_TYPE_FLOAT, &roughness, "min=0.1 max=1 step=0.1 label = 'Roughness value'");
+
+	//Adiciona "Fresnel" a barra
+	float fresnel = 0.8;
+	TwAddVarRW(g_pToolBar, "fresnel", TW_TYPE_FLOAT, &fresnel, "min=0.1 max=1 step=0.1 label = 'Fresnel reflectance'");
+
+	//Adiciona "Diffuse" a barra
+	float diffuse = 0.2;
+	TwAddVarRW(g_pToolBar, "diffuse", TW_TYPE_FLOAT, &diffuse, "min=0.1 max=1 step=0.1 label = 'Diffuse reflection'");
 
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(g_pWindow, GLFW_STICKY_KEYS, GL_TRUE);
@@ -278,6 +297,22 @@ int main(void)
 
 		// Use our shader
 		glUseProgram(programID);
+
+		//Uniform color
+		GLint fragmentColorLocation = glGetUniformLocation(programID, "lightColor");
+		glUniform3f(fragmentColorLocation, corR, corG, corB);
+
+		//Uniform roughness
+		GLint fragmentRoughnessLocation = glGetUniformLocation(programID, "roughnessValue");
+		glUniform1f(fragmentRoughnessLocation, roughness);
+
+		//Uniform Fresnel
+		GLint fragmentFresnelLocation = glGetUniformLocation(programID, "F0");
+		glUniform1f(fragmentFresnelLocation, fresnel);
+
+		//Uniform diffuse
+		GLint fragmentDiffuseLocation = glGetUniformLocation(programID, "k");
+		glUniform1f(fragmentDiffuseLocation, diffuse);
 
 		// Compute the MVP matrix from keyboard and mouse input
 		computeMatricesFromInputs(nUseMouse, g_nWidth, g_nHeight);
