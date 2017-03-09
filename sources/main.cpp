@@ -108,7 +108,7 @@ int main(void)
 	TwAddVarRW(g_pToolBar, "CorR", TW_TYPE_FLOAT, &corR, "min=0 max=1 step=0.1 label = 'Cor R'");
 	float corG = 0.1;
 	TwAddVarRW(g_pToolBar, "CorG", TW_TYPE_FLOAT, &corG, "min=0 max=1 step=0.1 label = 'Cor G'");
-	float corB = 0.5;
+	float corB = 0.1;
 	TwAddVarRW(g_pToolBar, "CorB", TW_TYPE_FLOAT, &corB, "min=0 max=1 step=0.1 label = 'Cor B'");
 
 	//Adicona "roughness" a barra
@@ -177,7 +177,7 @@ int main(void)
 	modelManager ModelManager(g_pToolBar, programID);
 	//Adiciona primeira suzanne
 	ModelManager.addMesh("mesh/suzanne.obj");
-	glm::vec3 posicao(3.0f, 3.0f, 0.0f);
+	glm::vec3 posicao(0.0f, 0.0f, 0.0f);
 	ModelManager.addModel(programID, "mesh/uvmap.DDS", posicao, 0);
 	
 	//Adiciona segunda suzanne

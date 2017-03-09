@@ -3,7 +3,9 @@ C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.target
   main.cpp
 D:\CG_UFPel\CG_UFPel\sources\main.cpp(107): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\CG_UFPel\CG_UFPel\sources\main.cpp(109): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\CG_UFPel\CG_UFPel\sources\main.cpp(111): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\CG_UFPel\CG_UFPel\sources\main.cpp(115): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\CG_UFPel\CG_UFPel\sources\main.cpp(119): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\CG_UFPel\CG_UFPel\sources\main.cpp(123): warning C4305: 'initializing': truncation from 'double' to 'float'
+     Creating library D:/CG_UFPel/CG_UFPel/Saida/Debug/CG_UFPel.lib and object D:/CG_UFPel/CG_UFPel/Saida/Debug/CG_UFPel.exp
   CG_UFPel.vcxproj -> D:\CG_UFPel\CG_UFPel\Saida\..\CG_UFPel.exe

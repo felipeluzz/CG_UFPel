@@ -1,0 +1,10 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = git@github.com:felipeluzz/CG_UFPel.git
+	fetch = +refs/*:refs/*
+	mirror = true
