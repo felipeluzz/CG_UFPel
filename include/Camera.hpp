@@ -67,6 +67,7 @@ public:
 	camera(GLuint programID) {
 		ViewMatrixID = glGetUniformLocation(programID, "V");
 		ModelMatrixID = glGetUniformLocation(programID, "M");
+		transformation = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f,0.0f,20.0f) * glm::vec3(-1));
 		ProjectionMatrix = getProjectionMatrix() * transformation;
 		ViewMatrix = getViewMatrix();
 	}

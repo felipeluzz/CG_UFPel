@@ -236,3 +236,24 @@ int model::animate() {
 		
 	return 1;
 }
+
+void model::arrowMoviment(glm::vec3 moviment) {
+	transformation = glm::translate(transformation, glm::vec3(moviment.x, moviment.y, moviment.z));
+}
+
+void model::setShaderParameters(float R, float G, float B, float Roughness, float Fresnel, float Diffuse) {
+	corR = R;
+	corG = G;
+	corB = B;
+	roughness = Roughness;
+	fresnel = Fresnel;
+	diffuse = Diffuse;
+}
+
+void model::ballSize(glm::vec3 size) {
+	transformation = glm::scale(size);
+}
+
+void model::ballMoviment(float xMoviment, float yMoviment) {
+	transformation = glm::translate(transformation, glm::vec3(xMoviment, yMoviment, 0.0f));
+}

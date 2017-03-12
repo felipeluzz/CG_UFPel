@@ -128,7 +128,7 @@ int main(void)
 	glfwSetCursorPos(g_pWindow, g_nWidth / 2, g_nHeight / 2);
 
 	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
@@ -175,28 +175,21 @@ int main(void)
 
 	int meshCount = 0;
 	modelManager ModelManager(g_pToolBar, programID);
-	//Adiciona primeira suzanne
-	ModelManager.addMesh("mesh/suzanne.obj");
-	glm::vec3 posicao(0.0f, 0.0f, 0.0f);
+	//Adiciona bola
+	ModelManager.addMesh("mesh/capsule.obj");
+	glm::vec3 posicao(0.0f, -6.0f, 0.0f);
 	ModelManager.addModel(programID, "mesh/uvmap.DDS", posicao, 0);
+	//ModelManager.getModel().at(0).ballSize(glm::vec3(-0.5, -0.5, -0.5));
+	ModelManager.getModel().at(0).setShaderParameters(0.9, 0.1, 0.1, 0.8, 0.8, 0.2);
 	
-	//Adiciona segunda suzanne
-	posicao.x = -3.0f;
-	posicao.y = -3.0f;
-	ModelManager.addModel(programID, "mesh/uvmap.DDS", posicao, 0);
-	//Adiciona ganso
-	ModelManager.addMesh("mesh/goose.obj");
-	posicao.x = -3.0f;
-	posicao.y =  3.0f;
-	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
-	/*
 	//Adiciona cubo
 	ModelManager.addMesh("mesh/cube.obj");
-	posicao.x = 3.0f;
-	posicao.y = -3.0f;
-	ModelManager.addModel(programID, "mesh/uvmap.DDS", posicao, 1);
-	*/
+	posicao.y =  -8.0f;
+	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+	ModelManager.getModel().at(1).setShaderParameters(0.5, 0.3, 0.8, 0.5, 0.6, 0.5);
 
+	// Compute the MVP matrix from keyboard and mouse input
+	computeMatricesFromInputs(nUseMouse, g_nWidth, g_nHeight);
 
 	do{
         //check_gl_error();
@@ -280,7 +273,7 @@ int main(void)
 		if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT_CONTROL) != GLFW_PRESS)
 			nUseMouse = 0;
 		else
-			nUseMouse = 0;
+			nUseMouse = 1;
 
 		// Measure speed
 		
@@ -297,25 +290,6 @@ int main(void)
 
 		// Use our shader
 		glUseProgram(programID);
-
-		//Uniform color
-		GLint fragmentColorLocation = glGetUniformLocation(programID, "lightColor");
-		glUniform3f(fragmentColorLocation, corR, corG, corB);
-
-		//Uniform roughness
-		GLint fragmentRoughnessLocation = glGetUniformLocation(programID, "roughnessValue");
-		glUniform1f(fragmentRoughnessLocation, roughness);
-
-		//Uniform Fresnel
-		GLint fragmentFresnelLocation = glGetUniformLocation(programID, "F0");
-		glUniform1f(fragmentFresnelLocation, fresnel);
-
-		//Uniform diffuse
-		GLint fragmentDiffuseLocation = glGetUniformLocation(programID, "k");
-		glUniform1f(fragmentDiffuseLocation, diffuse);
-
-		// Compute the MVP matrix from keyboard and mouse input
-		computeMatricesFromInputs(nUseMouse, g_nWidth, g_nHeight);
 
 		ModelManager.draw(g_pWindow, LightID);
 

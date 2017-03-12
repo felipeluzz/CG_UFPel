@@ -61,6 +61,14 @@ class modelManager {
 	struct transformC transformationC;
 	std::vector<camera> cameras;
 	GLuint programID;
+	float limite = 0.0;
+	bool started = false;
+	float sideBorder = 0.0;
+	float upBorder = 0.0;
+	bool up = false;
+	bool down = false;
+	bool left = false;
+	bool right = false;
 
 public:
 
@@ -103,6 +111,7 @@ public:
 	std::vector<mesh>& getMesh();
 	std::vector<model>& getModel();
 	void criaCamera();
+	void gameControl(GLFWwindow* g_pWindow);
 };
 
 #endif

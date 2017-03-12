@@ -57,6 +57,14 @@ class model {
 	glm::mat4 transformation;
 	std::queue <struct transform> transformationQueue;
 	std::queue <struct transform> animationQueue;
+
+public:
+	float corR;
+	float corG;
+	float corB;
+	float roughness;
+	float fresnel;
+	float diffuse;
 	
 public: 
 	model(GLuint programID, const char* textura, glm::vec3 posicao, int mID) {
@@ -74,6 +82,10 @@ public:
 	void addTransformation(struct transform);
 	int animate();
 	int getMeshID();
+	void arrowMoviment(glm::vec3 transformation);
+	void setShaderParameters(float R, float G, float B, float Roughness, float Fresnel, float Diffuse);
+	void ballSize(glm::vec3 size);
+	void ballMoviment(float xMoviment, float yMoviment);
 };
 
 

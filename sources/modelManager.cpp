@@ -66,6 +66,8 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 
 	double currentTime = glfwGetTime();
 
+	gameControl(g_pWindow);
+
 	if (transformando == 0 && transformandoCamera == 0) {
 		if (currentTime - initialTime >= 0.01) {
 			if (glfwGetKey(g_pWindow, GLFW_KEY_D)) {
@@ -255,6 +257,22 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 	for (int i = 0; i < models.size(); i++) {
 		models.at(i).bind(LightID, cameras.at(cameraAtual));
 
+		//Uniform color
+		GLint fragmentColorLocation = glGetUniformLocation(programID, "lightColor");
+		glUniform3f(fragmentColorLocation, models.at(i).corR, models.at(i).corG, models.at(i).corB);
+
+		//Uniform roughness
+		GLint fragmentRoughnessLocation = glGetUniformLocation(programID, "roughnessValue");
+		glUniform1f(fragmentRoughnessLocation, models.at(i).roughness);
+
+		//Uniform Fresnel
+		GLint fragmentFresnelLocation = glGetUniformLocation(programID, "F0");
+		glUniform1f(fragmentFresnelLocation, models.at(i).fresnel);
+
+		//Uniform diffuse
+		GLint fragmentDiffuseLocation = glGetUniformLocation(programID, "k");
+		glUniform1f(fragmentDiffuseLocation, models.at(i).diffuse);
+
 		if(transformando == 1)
 			meshes.at(models.at(i).getMeshID()).bind();
 
@@ -295,4 +313,104 @@ void modelManager::criaCamera() {
 	cameras.push_back(cameraNova);
 
 	
+}
+
+void modelManager::gameControl(GLFWwindow* g_pWindow) {
+	if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE)) {
+		up = true;
+		right = true;
+		if (started)
+			started = false;
+		else
+			started = true;
+	}
+
+	if (started) {
+		if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT)) {
+			if (limite <= 12) {
+				glm::vec3 moviment(-0.1f, 0.0f, 0.0f);
+				limite += 0.1;
+				models.at(1).arrowMoviment(moviment);
+			}
+		}
+
+		if (glfwGetKey(g_pWindow, GLFW_KEY_RIGHT)) {
+			if (limite >= -12) {
+				glm::vec3 moviment(0.1f, 0.0f, 0.0f);
+				limite -= 0.1;
+				models.at(1).arrowMoviment(moviment);
+			}
+		}
+		//Caso base, em que a bola está indo para cima, e não está em nenhuma borda
+		if (sideBorder <= 13.0 && sideBorder >= -13.0 && upBorder <= 15.0 && upBorder >= -3.6 && up) {
+			std::cout << "Primeiro caso - up: " << upBorder << std::endl;
+			std::cout << "Primeiro caso - side: " << sideBorder << std::endl;
+			upBorder += 0.1;
+			if (right) {
+				sideBorder += 0.03;
+				models.at(0).ballMoviment(0.03, 0.1);
+			}
+			else {
+				sideBorder -= 0.03;
+				models.at(0).ballMoviment(-0.03, 0.1);
+			}
+		}
+		//Caso em que a bola está indo para baixo, entra também quando detecta que a bola está na borda de cima
+		else if ((upBorder >= 15.0 || down) && upBorder >= -3.5 && sideBorder <= 13.0 && sideBorder >= -13.0) {
+			std::cout << "Segundo caso - up: " << upBorder << std::endl;
+			std::cout << "Segundo caso - side: " << sideBorder << std::endl;
+			up = false;
+			down = true;
+			upBorder -= 0.1;
+			if (right) {
+				sideBorder += 0.03;
+				models.at(0).ballMoviment(0.03, -0.1);
+			}
+			else {
+				sideBorder -= 0.03;
+				models.at(0).ballMoviment(-0.03, -0.1);
+			}
+		}
+		//Caso em que a bola chegou na borda de baixo, reseta flags, permitindo assim a volta para o caso base
+		else if (upBorder <= 15.0 && upBorder >= -3.6 && sideBorder <= 13.0 && sideBorder >= -13.0) {
+			std::cout << "Terceiro caso - up: " << upBorder << std::endl;
+			std::cout << "Terceiro caso - side: " << sideBorder << std::endl;
+			up = true;
+			down = false;
+		}
+		//Caso em que a bola chegou na borda direita
+		else if (sideBorder <= 13.3 && sideBorder >= -13.3 && right) {
+			std::cout << "Quarto caso - up: " << upBorder << std::endl;
+			std::cout << "Quarto caso - side: " << sideBorder << std::endl;
+			right = false;
+			left = true;
+			sideBorder -= 0.03;
+			if (up) {
+				upBorder += 0.1;
+				models.at(0).ballMoviment(-0.03, 0.1);
+			}
+			else {
+				upBorder -= 0.1;
+				models.at(0).ballMoviment(-0.03, -0.1);
+			}
+		}
+		//Caso em que a bola chegou na borda esquerda
+		else if (sideBorder <= 13.0 && sideBorder <= -13.0 && left) {
+			std::cout << "Quinto caso - up: " << upBorder << std::endl;
+			std::cout << "Quinto caso - side: " << sideBorder << std::endl;
+			right = true;
+			left = false;
+			sideBorder += 0.03;
+			if (up) {
+				upBorder += 0.1;
+				models.at(0).ballMoviment(0.03, 0.1);
+			}
+			else {
+				upBorder -= 0.1;
+				models.at(0).ballMoviment(0.03, -0.1);
+			}
+		}
+		std::cout << "Fora do caso - side: " << sideBorder << std::endl;
+
+	}
 }
