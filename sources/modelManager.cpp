@@ -66,7 +66,17 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 
 	double currentTime = glfwGetTime();
 
-	gameControl(g_pWindow);
+	if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE)) {
+		up = true;
+		right = true;
+		if (started)
+			started = false;
+		else
+			started = true;
+	}
+
+	if(started)
+		gameControl(g_pWindow);
 
 	if (transformando == 0 && transformandoCamera == 0) {
 		if (currentTime - initialTime >= 0.01) {
@@ -199,15 +209,8 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 			initialTime += 1.0;
 		}
 
-		//Aplica a transformação  
-		if (glfwGetKey(g_pWindow, GLFW_KEY_T)) {
-			for (int i = 0; i < models.size(); i++) {
-				if (models.at(i).setTransformation(seconds))
-				{
-					transformando += 1;
-				}
-			}
-		}
+		
+		
 		if (glfwGetKey(g_pWindow, GLFW_KEY_G)) {
 			for (int i = 0; i < cameras.size(); i++) {
 				if (cameras.at(i).setTransformation(seconds))
@@ -218,9 +221,23 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 		}
 	}
 
+	seconds = 1;
+
+	//Aplica a transformação  
+	for (int i = 0; i < models.size(); i++) {
+		if (models.at(i).setTransformation(seconds))
+		{
+			//std::cout << "set transformation" << std::endl;
+			transformando += 1;
+		}
+	}
+
 	//Executa a transformação
+	
 	int flag = 0 , step = seconds * ANIMSTEP;
+	//std::cout << transformando << " | " << currentTime - animationTime << " >= " << seconds / step << " | " << transformation.transformationID << std::endl;
 	if (transformando != 0 && ((currentTime - animationTime) >= seconds/step) && transformation.transformationID != 6) {
+		//std::cout << "entrou na execução" << std::endl;
 		for (int i = 0; i < models.size(); i++) {
 			if (!models.at(i).animate()) {
 				flag += 1;
@@ -316,15 +333,7 @@ void modelManager::criaCamera() {
 }
 
 void modelManager::gameControl(GLFWwindow* g_pWindow) {
-	if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE)) {
-		up = true;
-		right = true;
-		if (started)
-			started = false;
-		else
-			started = true;
-	}
-
+	
 	if (started) {
 		if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT)) {
 			if (limite <= 12) {
@@ -341,6 +350,7 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 				models.at(1).arrowMoviment(moviment);
 			}
 		}
+
 		//Caso base, em que a bola está indo para cima, e não está em nenhuma borda
 		if (sideBorder <= 13.0 && sideBorder >= -13.0 && upBorder <= 15.0 && upBorder >= -3.6 && up) {
 			//std::cout << "Primeiro caso - up: " << upBorder << std::endl;
@@ -348,11 +358,11 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			upBorder += 0.1;
 			if (right) {
 				sideBorder += 0.03;
-				models.at(0).ballMoviment(0.03, 0.1);
+				models.at(0).ballMoviment(xMoviment, yMoviment);
 			}
 			else {
 				sideBorder -= 0.03;
-				models.at(0).ballMoviment(-0.03, 0.1);
+				models.at(0).ballMoviment(-xMoviment, yMoviment);
 			}
 		}
 		//Caso em que a bola está indo para baixo, entra também quando detecta que a bola está na borda de cima
@@ -364,11 +374,11 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			upBorder -= 0.1;
 			if (right) {
 				sideBorder += 0.03;
-				models.at(0).ballMoviment(0.03, -0.1);
+				models.at(0).ballMoviment(xMoviment, -yMoviment);
 			}
 			else {
 				sideBorder -= 0.03;
-				models.at(0).ballMoviment(-0.03, -0.1);
+				models.at(0).ballMoviment(-xMoviment, -yMoviment);
 			}
 		}
 		//Caso em que a bola chegou na borda de baixo, reseta flags, permitindo assim a volta para o caso base
@@ -388,11 +398,11 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			sideBorder -= 0.03;
 			if (up) {
 				upBorder += 0.1;
-				models.at(0).ballMoviment(-0.03, 0.1);
+				models.at(0).ballMoviment(-xMoviment, yMoviment);
 			}
 			else {
 				upBorder -= 0.1;
-				models.at(0).ballMoviment(-0.03, -0.1);
+				models.at(0).ballMoviment(-xMoviment, -yMoviment);
 			}
 		}
 		//Caso em que a bola chegou na borda esquerda
@@ -404,11 +414,11 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			sideBorder += 0.03;
 			if (up) {
 				upBorder += 0.1;
-				models.at(0).ballMoviment(0.03, 0.1);
+				models.at(0).ballMoviment(xMoviment, yMoviment);
 			}
 			else {
 				upBorder -= 0.1;
-				models.at(0).ballMoviment(0.03, -0.1);
+				models.at(0).ballMoviment(xMoviment, -yMoviment);
 			}
 		}
 		//std::cout << "Fora do caso - side: " << sideBorder << std::endl;
@@ -418,11 +428,22 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 
 	if (naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(1).getPosition(), meshes.at(1).getSize())) {
 		std::cout << "Colisão!" << std::endl;
-		models.at(0).ballMoviment(0.03, 0.1);
+		models.at(0).ballMoviment(xMoviment, yMoviment);
 		up = true;
 		down = false;
 		upBorder += 0.1;
 	}
+	if (models.size() > 2 && models.at(2).destroyed == 0 && naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(2).getPosition(), meshes.at(2).getSize())) {
+		std::cout << "Colisão 2" << std::endl;
+		transformation.x = 0.0001;
+		transformation.y = 0.0001;
+		transformation.z = 0.0001;
+		transformation.transformationID = 1;
+		models.at(2).addTransformation(transformation);
+		models.at(2).destroyed = 1;
+		//models.erase(models.begin() +2);
+	}
+
 }
 
 /* -- Colisões -- */
@@ -434,15 +455,15 @@ GLboolean modelManager::naraujoCheckCollision(glm::vec3 positionA, glm::vec3 siz
 	bool collisionY = false;
 	bool collisionZ = false;
 
-	if (positionA.x + (sizeA.x / 2) >= positionB.x && ((positionB.x + sizeB.x / 2) >= positionA.x))
+	if ((positionA.x + (sizeA.x / 2)+1) >= positionB.x && (((positionB.x + (sizeB.x / 2)+1) >= positionA.x)))
 	{
 		collisionX = true;
 	}
-	if (positionA.y + (sizeA.y / 2) >= positionB.y && ((positionB.y + (sizeB.y / 2) >= positionA.y)))
+	if ((positionA.y + (sizeA.y / 2)+1) >= positionB.y && (((positionB.y + (sizeB.y / 2)+1) >= positionA.y)))
 	{
 		collisionY = true;
 	}
-	if (positionA.z + (sizeA.z / 2) >= positionB.z && ((positionB.z + (sizeB.z / 2) >= positionA.z)))
+	if ((positionA.z + (sizeA.z / 2)+1) >= positionB.z && (((positionB.z + (sizeB.z / 2)+1) >= positionA.z)))
 	{
 		collisionZ = true;
 	}

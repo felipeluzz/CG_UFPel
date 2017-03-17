@@ -188,6 +188,12 @@ int main(void)
 	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
 	ModelManager.getModel().at(1).setShaderParameters(0.5, 0.3, 0.8, 0.5, 0.6, 0.5);
 
+	//Adiciona cubo
+	ModelManager.addMesh("mesh/cube.obj");
+	posicao.y = 8.0f;
+	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+	ModelManager.getModel().at(2).setShaderParameters(0.4, 0.8, 0.3, 0.5, 0.6, 0.2);
+
 	// Compute the MVP matrix from keyboard and mouse input
 	computeMatricesFromInputs(nUseMouse, g_nWidth, g_nHeight);
 

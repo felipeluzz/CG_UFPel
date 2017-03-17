@@ -63,7 +63,7 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\CMakeFiles</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CG_UFPel</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\CG_UFPel\CG_UFPel\Saida\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CG_UFPel.dir\Release\</IntDir>

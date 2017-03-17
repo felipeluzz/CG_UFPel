@@ -69,6 +69,8 @@ class modelManager {
 	bool down = false;
 	bool left = false;
 	bool right = false;
+	float xMoviment = 0.03;
+	float yMoviment = 0.1;
 
 public:
 

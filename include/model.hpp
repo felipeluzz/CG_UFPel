@@ -66,6 +66,7 @@ public:
 	float roughness;
 	float fresnel;
 	float diffuse;
+	int destroyed = 0;
 	
 public: 
 	model(GLuint programID, const char* textura, glm::vec3 posicao, int mID) {

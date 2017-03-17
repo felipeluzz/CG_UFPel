@@ -112,14 +112,15 @@ int model::setTransformation(float seconds) {
 
 		//Para Escala
 		else if (transformationQueue.front().transformationID == 1) {
-			animation.x = transformationQueue.front().x;
-			animation.y = transformationQueue.front().y;
-			animation.z = transformationQueue.front().z;
+			double raiz = (1.0 / (double)step);
+			animation.x = pow(transformationQueue.front().x, raiz) / 2 + 0.5;
+			animation.y = pow(transformationQueue.front().y, raiz) / 2 + 0.5;
+			animation.z = pow(transformationQueue.front().z, raiz) / 2 + 0.5;
 			animation.transformationID = transformationQueue.front().transformationID;
 			transformationQueue.pop();
 
 			//Coloca a transformação fatiada numa fila
-			for (int i = 0; i < 1; i++)
+			for (int i = 0; i < step; i++)
 				animationQueue.push(animation);
 		}
 
