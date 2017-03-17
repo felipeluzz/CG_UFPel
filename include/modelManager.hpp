@@ -112,6 +112,7 @@ public:
 	std::vector<model>& getModel();
 	void criaCamera();
 	void gameControl(GLFWwindow* g_pWindow);
+	GLboolean naraujoCheckCollision(glm::vec3 positionA, glm::vec3 sizeA, glm::vec3 positionB, glm::vec3 sizeB);
 };
 
 #endif

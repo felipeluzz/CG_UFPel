@@ -343,8 +343,8 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 		}
 		//Caso base, em que a bola está indo para cima, e não está em nenhuma borda
 		if (sideBorder <= 13.0 && sideBorder >= -13.0 && upBorder <= 15.0 && upBorder >= -3.6 && up) {
-			std::cout << "Primeiro caso - up: " << upBorder << std::endl;
-			std::cout << "Primeiro caso - side: " << sideBorder << std::endl;
+			//std::cout << "Primeiro caso - up: " << upBorder << std::endl;
+			//std::cout << "Primeiro caso - side: " << sideBorder << std::endl;
 			upBorder += 0.1;
 			if (right) {
 				sideBorder += 0.03;
@@ -357,8 +357,8 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 		}
 		//Caso em que a bola está indo para baixo, entra também quando detecta que a bola está na borda de cima
 		else if ((upBorder >= 15.0 || down) && upBorder >= -3.5 && sideBorder <= 13.0 && sideBorder >= -13.0) {
-			std::cout << "Segundo caso - up: " << upBorder << std::endl;
-			std::cout << "Segundo caso - side: " << sideBorder << std::endl;
+			//std::cout << "Segundo caso - up: " << upBorder << std::endl;
+			//std::cout << "Segundo caso - side: " << sideBorder << std::endl;
 			up = false;
 			down = true;
 			upBorder -= 0.1;
@@ -373,15 +373,16 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 		}
 		//Caso em que a bola chegou na borda de baixo, reseta flags, permitindo assim a volta para o caso base
 		else if (upBorder <= 15.0 && upBorder >= -3.6 && sideBorder <= 13.0 && sideBorder >= -13.0) {
-			std::cout << "Terceiro caso - up: " << upBorder << std::endl;
-			std::cout << "Terceiro caso - side: " << sideBorder << std::endl;
+			//std::cout << "Terceiro caso - up: " << upBorder << std::endl;
+			//std::cout << "Terceiro caso - side: " << sideBorder << std::endl;
 			up = true;
 			down = false;
+			started = false;
 		}
 		//Caso em que a bola chegou na borda direita
 		else if (sideBorder <= 13.3 && sideBorder >= -13.3 && right) {
-			std::cout << "Quarto caso - up: " << upBorder << std::endl;
-			std::cout << "Quarto caso - side: " << sideBorder << std::endl;
+			//std::cout << "Quarto caso - up: " << upBorder << std::endl;
+			//std::cout << "Quarto caso - side: " << sideBorder << std::endl;
 			right = false;
 			left = true;
 			sideBorder -= 0.03;
@@ -396,8 +397,8 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 		}
 		//Caso em que a bola chegou na borda esquerda
 		else if (sideBorder <= 13.0 && sideBorder <= -13.0 && left) {
-			std::cout << "Quinto caso - up: " << upBorder << std::endl;
-			std::cout << "Quinto caso - side: " << sideBorder << std::endl;
+			//std::cout << "Quinto caso - up: " << upBorder << std::endl;
+			//std::cout << "Quinto caso - side: " << sideBorder << std::endl;
 			right = true;
 			left = false;
 			sideBorder += 0.03;
@@ -410,7 +411,45 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 				models.at(0).ballMoviment(0.03, -0.1);
 			}
 		}
-		std::cout << "Fora do caso - side: " << sideBorder << std::endl;
+		//std::cout << "Fora do caso - side: " << sideBorder << std::endl;
 
 	}
+	//std::cout << models.at(0).getPosition().x << " | " << models.at(0).getPosition().y << " | " << models.at(0).getPosition().z << std::endl;
+
+	if (naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(1).getPosition(), meshes.at(1).getSize())) {
+		std::cout << "Colisão!" << std::endl;
+		models.at(0).ballMoviment(0.03, 0.1);
+		up = true;
+		down = false;
+		upBorder += 0.1;
+	}
+}
+
+/* -- Colisões -- */
+//Verifica colisão entre dois modelos
+GLboolean modelManager::naraujoCheckCollision(glm::vec3 positionA, glm::vec3 sizeA, glm::vec3 positionB, glm::vec3 sizeB)
+{
+
+	bool collisionX = false;
+	bool collisionY = false;
+	bool collisionZ = false;
+
+	if (positionA.x + (sizeA.x / 2) >= positionB.x && ((positionB.x + sizeB.x / 2) >= positionA.x))
+	{
+		collisionX = true;
+	}
+	if (positionA.y + (sizeA.y / 2) >= positionB.y && ((positionB.y + (sizeB.y / 2) >= positionA.y)))
+	{
+		collisionY = true;
+	}
+	if (positionA.z + (sizeA.z / 2) >= positionB.z && ((positionB.z + (sizeB.z / 2) >= positionA.z)))
+	{
+		collisionZ = true;
+	}
+
+	//std::cout <<std::endl<< "Model A position: (" << positionA.x << ", " << positionA.y << ", " << positionA.z << ")";
+	//std::cout << " | Model B posiition (" << positionB.x << ", " << positionB.y << ", " << positionB.z << ")" << std::endl;
+
+	//std::cout << "Collision X = " << collisionX << " | Collision Y = " << collisionY << std::endl;
+	return collisionX && collisionY && collisionZ;
 }

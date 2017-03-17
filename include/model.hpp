@@ -57,6 +57,7 @@ class model {
 	glm::mat4 transformation;
 	std::queue <struct transform> transformationQueue;
 	std::queue <struct transform> animationQueue;
+	glm::vec3 position;
 
 public:
 	float corR;
@@ -86,6 +87,7 @@ public:
 	void setShaderParameters(float R, float G, float B, float Roughness, float Fresnel, float Diffuse);
 	void ballSize(glm::vec3 size);
 	void ballMoviment(float xMoviment, float yMoviment);
+	glm::vec3 getPosition();
 };
 
 

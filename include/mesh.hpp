@@ -48,6 +48,8 @@ class mesh {
 	GLuint normalbuffer;
 	GLuint elementbuffer;
 
+	glm::vec3 size;
+
 public:
 	mesh(const char* obj) {
 
@@ -78,12 +80,16 @@ public:
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), &indices[0], GL_STATIC_DRAW);
 
+		naraujoUpdateSize();
+
 	}
 	void load();
 	void bind();
 	void clean();
 	std::vector<unsigned short>& getIndices();
 	std::vector<glm::vec3>& getVertices();
+	void naraujoUpdateSize();
+	glm::vec3 getSize();
 	
 };
 

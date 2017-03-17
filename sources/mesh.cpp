@@ -110,3 +110,32 @@ std::vector<unsigned short>& mesh::getIndices() {
 std::vector<glm::vec3>& mesh::getVertices() {
 	return indexed_vertices;
 }
+
+void mesh::naraujoUpdateSize(){
+
+	GLfloat
+		min_x, max_x,
+		min_y, max_y,
+		min_z, max_z;
+	min_x = max_x = mesh::indexed_vertices[0].x;
+	min_y = max_y = mesh::indexed_vertices[0].y;
+	min_z = max_z = mesh::indexed_vertices[0].z;
+
+
+	for (int i = 0; i < mesh::indexed_vertices.size(); i++) {
+		if (mesh::indexed_vertices[i].x < min_x) min_x = mesh::indexed_vertices[i].x;
+		if (mesh::indexed_vertices[i].x > max_x) max_x = mesh::indexed_vertices[i].x;
+		if (mesh::indexed_vertices[i].y < min_y) min_y = mesh::indexed_vertices[i].y;
+		if (mesh::indexed_vertices[i].y > max_y) max_y = mesh::indexed_vertices[i].y;
+		if (mesh::indexed_vertices[i].z < min_z) min_z = mesh::indexed_vertices[i].z;
+		if (mesh::indexed_vertices[i].z > max_z) max_z = mesh::indexed_vertices[i].z;
+	}
+
+	mesh::size.x = max_x - min_x;
+	mesh::size.y = max_y - min_y;
+	mesh::size.z = max_z - min_z;
+}
+
+glm::vec3 mesh::getSize() {
+	return size;
+}

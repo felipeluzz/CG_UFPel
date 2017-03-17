@@ -51,6 +51,9 @@ void model::bind(GLuint LightID, camera cameraAtual) {
 	glBindTexture(GL_TEXTURE_2D, Texture);
 	// Set our "myTextureSampler" sampler to user Texture Unit 0
 	glUniform1i(TextureID, 0);
+
+	position = glm::vec3(ModelMatrix[3][0], ModelMatrix[3][1], ModelMatrix[3][2]);
+	//std::cout << position.x << " | " << position.y << " | " << position.z << std::endl;
 }
 
 //Faz a limpeza final
@@ -256,4 +259,9 @@ void model::ballSize(glm::vec3 size) {
 
 void model::ballMoviment(float xMoviment, float yMoviment) {
 	transformation = glm::translate(transformation, glm::vec3(xMoviment, yMoviment, 0.0f));
+}
+
+glm::vec3 model::getPosition()
+{
+	return position;
 }
