@@ -69,10 +69,7 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 	if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE)) {
 		up = true;
 		right = true;
-		if (started)
-			started = false;
-		else
-			started = true;
+		started = true;
 	}
 
 	if(started)
@@ -272,6 +269,8 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 	
 	//Dá bind em todos os models
 	for (int i = 0; i < models.size(); i++) {
+
+
 		models.at(i).bind(LightID, cameras.at(cameraAtual));
 
 		//Uniform color
@@ -355,13 +354,13 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 		if (sideBorder <= 13.0 && sideBorder >= -13.0 && upBorder <= 15.0 && upBorder >= -3.6 && up) {
 			//std::cout << "Primeiro caso - up: " << upBorder << std::endl;
 			//std::cout << "Primeiro caso - side: " << sideBorder << std::endl;
-			upBorder += 0.1;
+			upBorder += yMoviment;
 			if (right) {
-				sideBorder += 0.03;
+				sideBorder += xMoviment;
 				models.at(0).ballMoviment(xMoviment, yMoviment);
 			}
 			else {
-				sideBorder -= 0.03;
+				sideBorder -= xMoviment;
 				models.at(0).ballMoviment(-xMoviment, yMoviment);
 			}
 		}
@@ -371,13 +370,13 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			//std::cout << "Segundo caso - side: " << sideBorder << std::endl;
 			up = false;
 			down = true;
-			upBorder -= 0.1;
+			upBorder -= yMoviment;
 			if (right) {
-				sideBorder += 0.03;
+				sideBorder += xMoviment;
 				models.at(0).ballMoviment(xMoviment, -yMoviment);
 			}
 			else {
-				sideBorder -= 0.03;
+				sideBorder -= xMoviment;
 				models.at(0).ballMoviment(-xMoviment, -yMoviment);
 			}
 		}
@@ -395,13 +394,13 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			//std::cout << "Quarto caso - side: " << sideBorder << std::endl;
 			right = false;
 			left = true;
-			sideBorder -= 0.03;
+			sideBorder -= xMoviment;
 			if (up) {
-				upBorder += 0.1;
+				upBorder += yMoviment;
 				models.at(0).ballMoviment(-xMoviment, yMoviment);
 			}
 			else {
-				upBorder -= 0.1;
+				upBorder -= yMoviment;
 				models.at(0).ballMoviment(-xMoviment, -yMoviment);
 			}
 		}
@@ -411,13 +410,13 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			//std::cout << "Quinto caso - side: " << sideBorder << std::endl;
 			right = true;
 			left = false;
-			sideBorder += 0.03;
+			sideBorder += xMoviment;
 			if (up) {
-				upBorder += 0.1;
+				upBorder += yMoviment;
 				models.at(0).ballMoviment(xMoviment, yMoviment);
 			}
 			else {
-				upBorder -= 0.1;
+				upBorder -= yMoviment;
 				models.at(0).ballMoviment(xMoviment, -yMoviment);
 			}
 		}
@@ -431,17 +430,73 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 		models.at(0).ballMoviment(xMoviment, yMoviment);
 		up = true;
 		down = false;
-		upBorder += 0.1;
+		upBorder += yMoviment;
+		sideBorder += xMoviment;
 	}
-	if (models.size() > 2 && models.at(2).destroyed == 0 && naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(2).getPosition(), meshes.at(2).getSize())) {
-		std::cout << "Colisão 2" << std::endl;
-		transformation.x = 0.0001;
-		transformation.y = 0.0001;
-		transformation.z = 0.0001;
-		transformation.transformationID = 1;
-		models.at(2).addTransformation(transformation);
-		models.at(2).destroyed = 1;
-		//models.erase(models.begin() +2);
+	//if (models.size() > 2 && models.at(2).destroyed == 0 && naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(2).getPosition(), meshes.at(2).getSize())) {
+	//	std::cout << "Colisão 2" << std::endl;
+	//	transformation.x = 0.0;
+	//	transformation.y = 0.0;
+	//	transformation.z = 0.0;
+	//	transformation.transformationID = 1;
+	//	models.at(2).addTransformation(transformation);
+	//	models.at(2).destroyed = 1;
+	//	//models.erase(models.begin() +2);
+	//}
+
+	int i = 2;
+	if (models.size() > 2) {
+		for (auto it = models.begin() + 2; it != models.end(); ++it) {
+			if (models.at(i).destroyed == 0 && naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(i).getPosition(), meshes.at(i).getSize())) {
+				std::cout << "Colisão 2" << std::endl;
+				transformation.x = 0.0;
+				transformation.y = 0.0;
+				transformation.z = 0.0;
+				transformation.transformationID = 1;
+				models.at(i).addTransformation(transformation);
+				models.at(i).destroyed = 1;
+				if (xMoviment > 0) {
+					sideBorder -= xMoviment;
+					if (yMoviment > 0) {
+						models.at(0).ballMoviment(-xMoviment, -yMoviment);
+						upBorder -= yMoviment;
+						up = false;
+						down = true;
+						left = true;
+						right = false;
+					}
+					else {
+						models.at(0).ballMoviment(-xMoviment, yMoviment);
+						upBorder += yMoviment;
+						up = true;
+						down = false;
+						left = true;
+						right = false;
+					}
+				}
+				else {
+					sideBorder += xMoviment;
+					if (yMoviment > 0) {
+						models.at(0).ballMoviment(xMoviment, -yMoviment);
+						upBorder -= yMoviment;
+						up = false;
+						down = true;
+						left = false;
+						right = true;
+					}
+					else {
+						models.at(0).ballMoviment(xMoviment, yMoviment);
+						upBorder += yMoviment;
+						up = true;
+						down = false;
+						left = false;
+						right = true;
+					}
+				}
+			}
+			i++;
+			//models.erase(models.begin() +2);
+		}
 	}
 
 }
@@ -455,15 +510,15 @@ GLboolean modelManager::naraujoCheckCollision(glm::vec3 positionA, glm::vec3 siz
 	bool collisionY = false;
 	bool collisionZ = false;
 
-	if ((positionA.x + (sizeA.x / 2)+1) >= positionB.x && (((positionB.x + (sizeB.x / 2)+1) >= positionA.x)))
+	if ((positionA.x + (sizeA.x / 2)) >= positionB.x && (((positionB.x + (sizeB.x / 2)) >= positionA.x)))
 	{
 		collisionX = true;
 	}
-	if ((positionA.y + (sizeA.y / 2)+1) >= positionB.y && (((positionB.y + (sizeB.y / 2)+1) >= positionA.y)))
+	if ((positionA.y + (sizeA.y / 2)) >= positionB.y && (((positionB.y + (sizeB.y / 2)) >= positionA.y)))
 	{
 		collisionY = true;
 	}
-	if ((positionA.z + (sizeA.z / 2)+1) >= positionB.z && (((positionB.z + (sizeB.z / 2)+1) >= positionA.z)))
+	if ((positionA.z + (sizeA.z / 2)) >= positionB.z && (((positionB.z + (sizeB.z / 2)) >= positionA.z)))
 	{
 		collisionZ = true;
 	}

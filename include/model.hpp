@@ -89,6 +89,8 @@ public:
 	void ballSize(glm::vec3 size);
 	void ballMoviment(float xMoviment, float yMoviment);
 	glm::vec3 getPosition();
+	glm::mat4 getModelMatrix();
+	void setModelMatrix(glm::mat4 modelMatrix);
 };
 
 

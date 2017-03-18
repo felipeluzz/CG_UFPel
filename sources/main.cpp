@@ -97,31 +97,36 @@ int main(void)
 
 	//create the toolbar
 	g_pToolBar = TwNewBar("CG UFPel ToolBar");
+
+	//Adiciona "dificuldade a barra"
+	int dificuldade = 0;
+	TwAddVarRW(g_pToolBar, "Dificuldade", TW_TYPE_INT16, &dificuldade, "label = 'Dificuldade'");
+
 	//Adiciona novo model
-	glm::vec3 posicaoModel;
-	TwAddVarRW(g_pToolBar, "Model", TW_TYPE_DIR3F, &posicaoModel, "label = 'Novo Model'");
-	int meshID = 0;
-	TwAddVarRW(g_pToolBar, "MeshID", TW_TYPE_INT8, &meshID, "label = 'MehsID'");
+	//glm::vec3 posicaoModel;
+	//TwAddVarRW(g_pToolBar, "Model", TW_TYPE_DIR3F, &posicaoModel, "label = 'Novo Model'");
+	//int meshID = 0;
+	//TwAddVarRW(g_pToolBar, "MeshID", TW_TYPE_INT8, &meshID, "label = 'MehsID'");
 
-	//Adiciona "cor" a barra
-	float corR = 0.9;
-	TwAddVarRW(g_pToolBar, "CorR", TW_TYPE_FLOAT, &corR, "min=0 max=1 step=0.1 label = 'Cor R'");
-	float corG = 0.1;
-	TwAddVarRW(g_pToolBar, "CorG", TW_TYPE_FLOAT, &corG, "min=0 max=1 step=0.1 label = 'Cor G'");
-	float corB = 0.1;
-	TwAddVarRW(g_pToolBar, "CorB", TW_TYPE_FLOAT, &corB, "min=0 max=1 step=0.1 label = 'Cor B'");
+	////Adiciona "cor" a barra
+	//float corR = 0.9;
+	//TwAddVarRW(g_pToolBar, "CorR", TW_TYPE_FLOAT, &corR, "min=0 max=1 step=0.1 label = 'Cor R'");
+	//float corG = 0.1;
+	//TwAddVarRW(g_pToolBar, "CorG", TW_TYPE_FLOAT, &corG, "min=0 max=1 step=0.1 label = 'Cor G'");
+	//float corB = 0.1;
+	//TwAddVarRW(g_pToolBar, "CorB", TW_TYPE_FLOAT, &corB, "min=0 max=1 step=0.1 label = 'Cor B'");
 
-	//Adicona "roughness" a barra
-	float roughness = 0.3;
-	TwAddVarRW(g_pToolBar, "roughness", TW_TYPE_FLOAT, &roughness, "min=0.1 max=1 step=0.1 label = 'Roughness value'");
+	////Adicona "roughness" a barra
+	//float roughness = 0.3;
+	//TwAddVarRW(g_pToolBar, "roughness", TW_TYPE_FLOAT, &roughness, "min=0.1 max=1 step=0.1 label = 'Roughness value'");
 
-	//Adiciona "Fresnel" a barra
-	float fresnel = 0.8;
-	TwAddVarRW(g_pToolBar, "fresnel", TW_TYPE_FLOAT, &fresnel, "min=0.1 max=1 step=0.1 label = 'Fresnel reflectance'");
+	////Adiciona "Fresnel" a barra
+	//float fresnel = 0.8;
+	//TwAddVarRW(g_pToolBar, "fresnel", TW_TYPE_FLOAT, &fresnel, "min=0.1 max=1 step=0.1 label = 'Fresnel reflectance'");
 
-	//Adiciona "Diffuse" a barra
-	float diffuse = 0.2;
-	TwAddVarRW(g_pToolBar, "diffuse", TW_TYPE_FLOAT, &diffuse, "min=0.1 max=1 step=0.1 label = 'Diffuse reflection'");
+	////Adiciona "Diffuse" a barra
+	//float diffuse = 0.2;
+	//TwAddVarRW(g_pToolBar, "diffuse", TW_TYPE_FLOAT, &diffuse, "min=0.1 max=1 step=0.1 label = 'Diffuse reflection'");
 
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(g_pWindow, GLFW_STICKY_KEYS, GL_TRUE);
@@ -176,7 +181,7 @@ int main(void)
 	int meshCount = 0;
 	modelManager ModelManager(g_pToolBar, programID);
 	//Adiciona bola
-	ModelManager.addMesh("mesh/capsule.obj");
+	ModelManager.addMesh("mesh/sphere.obj");
 	glm::vec3 posicao(0.0f, -6.0f, 0.0f);
 	ModelManager.addModel(programID, "mesh/uvmap.DDS", posicao, 0);
 	//ModelManager.getModel().at(0).ballSize(glm::vec3(-0.5, -0.5, -0.5));
@@ -188,11 +193,29 @@ int main(void)
 	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
 	ModelManager.getModel().at(1).setShaderParameters(0.5, 0.3, 0.8, 0.5, 0.6, 0.5);
 
-	//Adiciona cubo
-	ModelManager.addMesh("mesh/cube.obj");
-	posicao.y = 8.0f;
-	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
-	ModelManager.getModel().at(2).setShaderParameters(0.4, 0.8, 0.3, 0.5, 0.6, 0.2);
+	bool level[6] = { false };
+
+	//posicao.x = -12.0f;
+
+	//for (int i = 2; i < 25; i++) {
+	//	//Adiciona cubo
+	//	ModelManager.addMesh("mesh/cube.obj");
+	//	posicao.y = 8.0f;
+	//	posicao.x += 1.0f;
+	//	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+	//	ModelManager.getModel().at(i).setShaderParameters(0.4, 0.8, 0.3, 0.1, 1.0, 0.2);
+	//}
+
+	//posicao.x = -11.0f;
+
+	//for (int i = 25; i < 46; i++) {
+	//	//Adiciona cubo
+	//	ModelManager.addMesh("mesh/cube.obj");
+	//	posicao.y = 6.0f;
+	//	posicao.x += 1.0f;
+	//	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+	//	ModelManager.getModel().at(i).setShaderParameters(0.9, 0.8, 0.5, 0.1, 1.0, 0.2);
+	//}
 
 	// Compute the MVP matrix from keyboard and mouse input
 	computeMatricesFromInputs(nUseMouse, g_nWidth, g_nHeight);
@@ -210,23 +233,100 @@ int main(void)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		*/
-		if (glfwGetKey(g_pWindow, GLFW_KEY_S) == GLFW_PRESS) //Se o usuário pressionar S, inicia a simplificação da malha
-			simplificar = 1;
+		//if (glfwGetKey(g_pWindow, GLFW_KEY_S) == GLFW_PRESS) //Se o usuário pressionar S, inicia a simplificação da malha
+		//	simplificar = 1;
 
-		if (glfwGetKey(g_pWindow, GLFW_KEY_D) == GLFW_PRESS) //Se o usuário pressionar D, desfaz a simplificação da malha
-			desfazer = 1;
+		//if (glfwGetKey(g_pWindow, GLFW_KEY_D) == GLFW_PRESS) //Se o usuário pressionar D, desfaz a simplificação da malha
+		//	desfazer = 1;
 
-		if (glfwGetKey(g_pWindow, GLFW_KEY_Q) == GLFW_PRESS) //Se o usuário pressionar Q, realiza 1 passo de simplificação da malha
-			stepS = 1;
+		//if (glfwGetKey(g_pWindow, GLFW_KEY_Q) == GLFW_PRESS) //Se o usuário pressionar Q, realiza 1 passo de simplificação da malha
+		//	stepS = 1;
 
-		if (glfwGetKey(g_pWindow, GLFW_KEY_W) == GLFW_PRESS) //Se o usuário pressionar W, realiza 1 passo da operação de desfazer a simplificação
-			stepD = 1;
+		//if (glfwGetKey(g_pWindow, GLFW_KEY_W) == GLFW_PRESS) //Se o usuário pressionar W, realiza 1 passo da operação de desfazer a simplificação
+		//	stepD = 1;
 
-		if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE) == GLFW_PRESS) { //Se o usuário pressionar Espaço, para o que estiver fazendo
-			simplificar = 0;
-			desfazer = 0;
-			stepS = 0;
-			stepD = 0;
+		//if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE) == GLFW_PRESS) { //Se o usuário pressionar Espaço, para o que estiver fazendo
+		//	simplificar = 0;
+		//	desfazer = 0;
+		//	stepS = 0;
+		//	stepD = 0;
+		//}
+
+		if (glfwGetKey(g_pWindow, GLFW_KEY_D) == GLFW_PRESS) {
+			if (dificuldade > 0 && level[0] == false) {
+				std::cout << "Dificuldade\n";
+				//Adiciona cubo
+				ModelManager.addMesh("mesh/cube.obj");
+				posicao.y = -1.0f;
+				ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+				ModelManager.getModel().at(2).setShaderParameters(0.1, 0.1, 0.4, 0.5, 0.6, 0.5);
+				level[0] = true;
+			}
+			if (dificuldade > 1 && level[0] == true && level[1] == false) {
+				posicao.x = -2.0f;
+				for (int i = 3; i < 6; i++) {
+					std::cout << "Dificuldade\n";
+					//Adiciona cubo
+					ModelManager.addMesh("mesh/cube.obj");
+					posicao.y = 1.0f;
+					posicao.x += 1.0f;
+					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+					ModelManager.getModel().at(i).setShaderParameters(0.3, 0.1, 0.4, 0.5, 0.6, 0.5);
+					level[1] = true;
+				}
+			}
+			if (dificuldade > 2 && level[0] == true && level[1] == true && level[2] == false) {
+				posicao.x = -4.0f;
+				for (int i = 6; i < 13; i++) {
+					std::cout << "Dificuldade\n";
+					//Adiciona cubo
+					ModelManager.addMesh("mesh/cube.obj");
+					posicao.y = 3.0f;
+					posicao.x += 1.0f;
+					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+					ModelManager.getModel().at(i).setShaderParameters(0.5, 0.2, 0.4, 0.5, 0.6, 0.5);
+					level[2] = true;
+				}
+			}
+			if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == false) {
+				posicao.x = -7.0f;
+				for (int i = 13; i < 26; i++) {
+					std::cout << "Dificuldade\n";
+					//Adiciona cubo
+					ModelManager.addMesh("mesh/cube.obj");
+					posicao.y = 5.0f;
+					posicao.x += 1.0f;
+					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+					ModelManager.getModel().at(i).setShaderParameters(0.7, 0.2, 0.2, 0.5, 0.6, 0.5);
+					level[3] = true;
+				}
+			}
+			if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == false) {
+				posicao.x = -11.0f;
+				for (int i = 26; i < 47; i++) {
+					std::cout << "Dificuldade\n";
+					//Adiciona cubo
+					ModelManager.addMesh("mesh/cube.obj");
+					posicao.y = 7.0f;
+					posicao.x += 1.0f;
+					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+					ModelManager.getModel().at(i).setShaderParameters(0.8, 0.1, 0.1, 0.5, 0.6, 0.5);
+					level[4] = true;
+				}
+			}
+			if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == true && level[5] == false) {
+				posicao.x = -13.0f;
+				for (int i = 47; i < 73; i++) {
+					std::cout << "Dificuldade\n";
+					//Adiciona cubo
+					ModelManager.addMesh("mesh/cube.obj");
+					posicao.y = 9.0f;
+					posicao.x += 1.0f;
+					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
+					ModelManager.getModel().at(i).setShaderParameters(1.0, 0.0, 0.0, 0.5, 0.6, 0.5);
+					level[5] = true;
+				}
+			}
 		}
 
 		
@@ -270,7 +370,7 @@ int main(void)
 				std::cout << "\nInsira o caminho da textura do novo model:\n";
 				std::cin >> texture;
 				const char* textureC = texture.c_str();
-				ModelManager.addModel(programID, textureC, posicaoModel, meshID);
+				//ModelManager.addModel(programID, textureC, posicaoModel, meshID);
 			}
 		}
 

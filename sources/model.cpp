@@ -36,6 +36,9 @@ void model::bind(GLuint LightID, camera cameraAtual) {
 
 	cameraAtual.bind();
 	ModelMatrix = glm::mat4(1.0) * transformation;
+
+	ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.5, 0.5, 0.5));
+
 	MVP = cameraAtual.ProjectionMatrix * cameraAtual.ViewMatrix * ModelMatrix;
 	// Send our transformation to the currently bound shader,
 	// in the "MVP" uniform
@@ -265,4 +268,12 @@ void model::ballMoviment(float xMoviment, float yMoviment) {
 glm::vec3 model::getPosition()
 {
 	return position;
+}
+
+glm::mat4 model::getModelMatrix() {
+	return ModelMatrix;
+}
+
+void model::setModelMatrix(glm::mat4 modelMatrix) {
+	ModelMatrix = modelMatrix;
 }

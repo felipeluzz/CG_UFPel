@@ -76,33 +76,33 @@ public:
 
 	modelManager(TwBar *ToolBar, GLuint programID) : programID(programID) {
 		g_pToolBar = ToolBar;
-		//Adciona "Camera" a barra
-		TwAddVarRW(g_pToolBar, "Camera", TW_TYPE_INT16, &cameraAtual, " label='Câmera Atual'");
-		//Adiciona "Translação" a barra
-		TwAddVarRW(g_pToolBar, "Translação", TW_TYPE_DIR3F, &translacao, " label='Translação'");
-		//Adiciona "LookAt" a barra
-		TwAddVarRW(g_pToolBar, "LookAt", TW_TYPE_DIR3F, &eye, " label='Look At - Posição'");
-		//Adiciona "LookAt" a barra
-		TwAddVarRW(g_pToolBar, "LookAtC", TW_TYPE_DIR3F, &lookAt, " label='Look At - Centro'");
-		//Adciona "Rotação" a barra
-		TwAddVarRW(g_pToolBar, "Rotação", TW_TYPE_DIR3F, &rotacao, " label='Rotação'");
-		TwAddVarRW(g_pToolBar, "Angulo", TW_TYPE_FLOAT, &angulo, " label='Angulo Rotação'");
-		//Adiciona "Pontos de curva" a barra
-		TwAddVarRW(g_pToolBar, "curva", TW_TYPE_DIR3F, &pontos, " label='Pontos de Curva'");
-		//Adiciona "Tempo de transformação a barra
-		TwAddVarRW(g_pToolBar, "Tempo", TW_TYPE_FLOAT, &seconds, " label='Tempo de Transformação' min = 0.0");
-		//Adiciona "Escala" a barra
-		TwAddVarRW(g_pToolBar, "Escala", TW_TYPE_DIR3F, &escala, " label='Escala'");
-		//Adiciona "Shear X" a barra
-		TwAddVarRW(g_pToolBar, "ShearX", TW_TYPE_DIR3F, &shearX, " label='Shear X'");
-		//Adiciona "Shear Y" a barra
-		TwAddVarRW(g_pToolBar, "ShearY", TW_TYPE_DIR3F, &shearY, " label='Shear Y'");
-		//Adiciona "Shear Z" a barra
-		TwAddVarRW(g_pToolBar, "ShearZ", TW_TYPE_DIR3F, &shearZ, " label='Shear Z'");
-		//Adiciona "Projeção" a barra
-		TwAddVarRW(g_pToolBar, "Projecao", TW_TYPE_DIR3F, &projecao, " label='Projecao'");
-		//Adiciona "Modelo Atual" a barra
-		TwAddVarRW(g_pToolBar, "Modelo", TW_TYPE_INT8, &modelN, " label='Modelo Atual' min = 0.0");
+		////Adciona "Camera" a barra
+		//TwAddVarRW(g_pToolBar, "Camera", TW_TYPE_INT16, &cameraAtual, " label='Câmera Atual'");
+		////Adiciona "Translação" a barra
+		//TwAddVarRW(g_pToolBar, "Translação", TW_TYPE_DIR3F, &translacao, " label='Translação'");
+		////Adiciona "LookAt" a barra
+		//TwAddVarRW(g_pToolBar, "LookAt", TW_TYPE_DIR3F, &eye, " label='Look At - Posição'");
+		////Adiciona "LookAt" a barra
+		//TwAddVarRW(g_pToolBar, "LookAtC", TW_TYPE_DIR3F, &lookAt, " label='Look At - Centro'");
+		////Adciona "Rotação" a barra
+		//TwAddVarRW(g_pToolBar, "Rotação", TW_TYPE_DIR3F, &rotacao, " label='Rotação'");
+		//TwAddVarRW(g_pToolBar, "Angulo", TW_TYPE_FLOAT, &angulo, " label='Angulo Rotação'");
+		////Adiciona "Pontos de curva" a barra
+		//TwAddVarRW(g_pToolBar, "curva", TW_TYPE_DIR3F, &pontos, " label='Pontos de Curva'");
+		////Adiciona "Tempo de transformação a barra
+		//TwAddVarRW(g_pToolBar, "Tempo", TW_TYPE_FLOAT, &seconds, " label='Tempo de Transformação' min = 0.0");
+		////Adiciona "Escala" a barra
+		//TwAddVarRW(g_pToolBar, "Escala", TW_TYPE_DIR3F, &escala, " label='Escala'");
+		////Adiciona "Shear X" a barra
+		//TwAddVarRW(g_pToolBar, "ShearX", TW_TYPE_DIR3F, &shearX, " label='Shear X'");
+		////Adiciona "Shear Y" a barra
+		//TwAddVarRW(g_pToolBar, "ShearY", TW_TYPE_DIR3F, &shearY, " label='Shear Y'");
+		////Adiciona "Shear Z" a barra
+		//TwAddVarRW(g_pToolBar, "ShearZ", TW_TYPE_DIR3F, &shearZ, " label='Shear Z'");
+		////Adiciona "Projeção" a barra
+		//TwAddVarRW(g_pToolBar, "Projecao", TW_TYPE_DIR3F, &projecao, " label='Projecao'");
+		////Adiciona "Modelo Atual" a barra
+		//TwAddVarRW(g_pToolBar, "Modelo", TW_TYPE_INT8, &modelN, " label='Modelo Atual' min = 0.0");
 		camera camera1(programID);
 		cameras.push_back(camera1);
 
