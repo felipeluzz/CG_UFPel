@@ -71,6 +71,10 @@ class modelManager {
 	bool right = false;
 	float xMoviment = 0.03;
 	float yMoviment = 0.1;
+	int points = 0;
+	int lives = 2;
+	int dificuldade = 0;
+	bool level[6] = { false };
 
 public:
 
@@ -103,6 +107,8 @@ public:
 		//TwAddVarRW(g_pToolBar, "Projecao", TW_TYPE_DIR3F, &projecao, " label='Projecao'");
 		////Adiciona "Modelo Atual" a barra
 		//TwAddVarRW(g_pToolBar, "Modelo", TW_TYPE_INT8, &modelN, " label='Modelo Atual' min = 0.0");
+		//Adiciona "dificuldade a barra"
+		TwAddVarRW(g_pToolBar, "Dificuldade", TW_TYPE_INT16, &dificuldade, "label = 'Dificuldade'");
 		camera camera1(programID);
 		cameras.push_back(camera1);
 
@@ -115,6 +121,8 @@ public:
 	void criaCamera();
 	void gameControl(GLFWwindow* g_pWindow);
 	GLboolean naraujoCheckCollision(glm::vec3 positionA, glm::vec3 sizeA, glm::vec3 positionB, glm::vec3 sizeB);
+	void resetGame();
+	void addBricks();
 };
 
 #endif

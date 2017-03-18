@@ -67,6 +67,9 @@ public:
 	float fresnel;
 	float diffuse;
 	int destroyed = 0;
+	int flag = 0;
+	glm::mat4 firstMatrix;
+	glm::mat4 firstTransformation;
 	
 public: 
 	model(GLuint programID, const char* textura, glm::vec3 posicao, int mID) {
@@ -91,6 +94,7 @@ public:
 	glm::vec3 getPosition();
 	glm::mat4 getModelMatrix();
 	void setModelMatrix(glm::mat4 modelMatrix);
+	void setTransformation(glm::mat4 Transformation);
 };
 
 

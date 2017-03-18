@@ -98,9 +98,6 @@ int main(void)
 	//create the toolbar
 	g_pToolBar = TwNewBar("CG UFPel ToolBar");
 
-	//Adiciona "dificuldade a barra"
-	int dificuldade = 0;
-	TwAddVarRW(g_pToolBar, "Dificuldade", TW_TYPE_INT16, &dificuldade, "label = 'Dificuldade'");
 
 	//Adiciona novo model
 	//glm::vec3 posicaoModel;
@@ -165,7 +162,7 @@ int main(void)
 
 	int simplificar=0, desfazer = 0, stepS = 0, stepD = 0, MeshN = 0; //Flags para controle das teclas
 
-	std::cout << "Pressione S para simplificar a malha; \n D para desfazer a simplificação; \n Q para dar 1 passo de simplificação; \n W para desfazer 1 passo de simplificação; \n Espaço para pausar o que estiver fazendo; \n D para Translação \n E para Escala \n R para rotação \n X para ShearX, Y para ShearY, Z para ShearZ \n C para Composta \n O para projeção \n T para ativar a transformação \n B para adicionar uma nova mesh \n N para adicionar um novo model \n";
+	/*std::cout << "Pressione S para simplificar a malha; \n D para desfazer a simplificação; \n Q para dar 1 passo de simplificação; \n W para desfazer 1 passo de simplificação; \n Espaço para pausar o que estiver fazendo; \n D para Translação \n E para Escala \n R para rotação \n X para ShearX, Y para ShearY, Z para ShearZ \n C para Composta \n O para projeção \n T para ativar a transformação \n B para adicionar uma nova mesh \n N para adicionar um novo model \n";
 	std::cout << "\n------Câmera------\n";
 	std::cout << "\nColoque a posição de uma nova câmera na barra Translação e enão aperte K para criá-la";
 	std::cout << "\nColoque os valores da translação na barra e o tempo de transformação e pressione H para coloca-la na fila";
@@ -176,7 +173,7 @@ int main(void)
 	std::cout << "\nColoque o p0 da B-Spline na barra Ponto e o tempo (total) e pressione L para adiciona-lo a fila, repita até p3 (não mais do que 4 pontos)";
 	std::cout << "\nColoque o p0 da Bézier na barra Ponto e o tempo (total) e pressione A para adicioná-lo na fila, repita até p3 (não mais do que 4 pontos)";
 	std::cout << "\nPressione G para executar as transformações contidas na fila";
-	std::cout << "\nOBS: Para as curvas, a fila deve possuir apenas os pontos dela, sem nenhum outro tipo de transformação";
+	std::cout << "\nOBS: Para as curvas, a fila deve possuir apenas os pontos dela, sem nenhum outro tipo de transformação";*/
 
 	int meshCount = 0;
 	modelManager ModelManager(g_pToolBar, programID);
@@ -184,16 +181,15 @@ int main(void)
 	ModelManager.addMesh("mesh/sphere.obj");
 	glm::vec3 posicao(0.0f, -6.0f, 0.0f);
 	ModelManager.addModel(programID, "mesh/uvmap.DDS", posicao, 0);
-	//ModelManager.getModel().at(0).ballSize(glm::vec3(-0.5, -0.5, -0.5));
 	ModelManager.getModel().at(0).setShaderParameters(0.9, 0.1, 0.1, 0.8, 0.8, 0.2);
+	std::cout << "Posicao inicial: " << ModelManager.getModel().at(0).getModelMatrix()[3][0] << " | " << ModelManager.getModel().at(0).getModelMatrix()[3][1] << " | " << ModelManager.getModel().at(0).getModelMatrix()[3][2] << std::endl;
 	
 	//Adiciona cubo
 	ModelManager.addMesh("mesh/cube.obj");
 	posicao.y =  -8.0f;
 	ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
 	ModelManager.getModel().at(1).setShaderParameters(0.5, 0.3, 0.8, 0.5, 0.6, 0.5);
-
-	bool level[6] = { false };
+	//std::cout << "Posicao inicial: " << ModelManager.getModel().at(1).getPosition().x << " | " << ModelManager.getModel().at(1).getPosition().y << " | " << ModelManager.getModel().at(1).getPosition().z << std::endl;
 
 	//posicao.x = -12.0f;
 
@@ -253,80 +249,8 @@ int main(void)
 		//}
 
 		if (glfwGetKey(g_pWindow, GLFW_KEY_D) == GLFW_PRESS) {
-			if (dificuldade > 0 && level[0] == false) {
-				std::cout << "Dificuldade\n";
-				//Adiciona cubo
-				ModelManager.addMesh("mesh/cube.obj");
-				posicao.y = -1.0f;
-				ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
-				ModelManager.getModel().at(2).setShaderParameters(0.1, 0.1, 0.4, 0.5, 0.6, 0.5);
-				level[0] = true;
-			}
-			if (dificuldade > 1 && level[0] == true && level[1] == false) {
-				posicao.x = -2.0f;
-				for (int i = 3; i < 6; i++) {
-					std::cout << "Dificuldade\n";
-					//Adiciona cubo
-					ModelManager.addMesh("mesh/cube.obj");
-					posicao.y = 1.0f;
-					posicao.x += 1.0f;
-					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
-					ModelManager.getModel().at(i).setShaderParameters(0.3, 0.1, 0.4, 0.5, 0.6, 0.5);
-					level[1] = true;
-				}
-			}
-			if (dificuldade > 2 && level[0] == true && level[1] == true && level[2] == false) {
-				posicao.x = -4.0f;
-				for (int i = 6; i < 13; i++) {
-					std::cout << "Dificuldade\n";
-					//Adiciona cubo
-					ModelManager.addMesh("mesh/cube.obj");
-					posicao.y = 3.0f;
-					posicao.x += 1.0f;
-					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
-					ModelManager.getModel().at(i).setShaderParameters(0.5, 0.2, 0.4, 0.5, 0.6, 0.5);
-					level[2] = true;
-				}
-			}
-			if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == false) {
-				posicao.x = -7.0f;
-				for (int i = 13; i < 26; i++) {
-					std::cout << "Dificuldade\n";
-					//Adiciona cubo
-					ModelManager.addMesh("mesh/cube.obj");
-					posicao.y = 5.0f;
-					posicao.x += 1.0f;
-					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
-					ModelManager.getModel().at(i).setShaderParameters(0.7, 0.2, 0.2, 0.5, 0.6, 0.5);
-					level[3] = true;
-				}
-			}
-			if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == false) {
-				posicao.x = -11.0f;
-				for (int i = 26; i < 47; i++) {
-					std::cout << "Dificuldade\n";
-					//Adiciona cubo
-					ModelManager.addMesh("mesh/cube.obj");
-					posicao.y = 7.0f;
-					posicao.x += 1.0f;
-					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
-					ModelManager.getModel().at(i).setShaderParameters(0.8, 0.1, 0.1, 0.5, 0.6, 0.5);
-					level[4] = true;
-				}
-			}
-			if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == true && level[5] == false) {
-				posicao.x = -13.0f;
-				for (int i = 47; i < 73; i++) {
-					std::cout << "Dificuldade\n";
-					//Adiciona cubo
-					ModelManager.addMesh("mesh/cube.obj");
-					posicao.y = 9.0f;
-					posicao.x += 1.0f;
-					ModelManager.addModel(programID, "mesh/goose.dds", posicao, 1);
-					ModelManager.getModel().at(i).setShaderParameters(1.0, 0.0, 0.0, 0.5, 0.6, 0.5);
-					level[5] = true;
-				}
-			}
+			std::cout << "addBricks chamado\n";
+			ModelManager.addBricks();
 		}
 
 		

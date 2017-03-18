@@ -1,15 +1,24 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(367,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
 C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  main.cpp
+  modelManager.cpp
 D:\CG_UFPel\CG_UFPel\include\modelManager.hpp(72): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\CG_UFPel\CG_UFPel\include\modelManager.hpp(73): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\CG_UFPel\CG_UFPel\sources\main.cpp(188): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\CG_UFPel\CG_UFPel\sources\main.cpp(194): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\CG_UFPel\CG_UFPel\sources\main.cpp(262): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\CG_UFPel\CG_UFPel\sources\main.cpp(274): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\CG_UFPel\CG_UFPel\sources\main.cpp(287): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\CG_UFPel\CG_UFPel\sources\main.cpp(300): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\CG_UFPel\CG_UFPel\sources\main.cpp(313): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\CG_UFPel\CG_UFPel\sources\main.cpp(326): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(240): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+..\sources\modelManager.cpp(309): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+..\sources\modelManager.cpp(346): warning C4305: '+=': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(354): warning C4305: '-=': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(557): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(563): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(579): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(592): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(594): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(608): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(610): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(624): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(626): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(640): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(642): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(656): warning C4305: 'argument': truncation from 'double' to 'float'
+..\sources\modelManager.cpp(658): warning C4305: 'argument': truncation from 'double' to 'float'
      Creating library D:/CG_UFPel/CG_UFPel/Saida/Debug/CG_UFPel.lib and object D:/CG_UFPel/CG_UFPel/Saida/Debug/CG_UFPel.exp
   CG_UFPel.vcxproj -> D:\CG_UFPel\CG_UFPel\Saida\..\CG_UFPel.exe

@@ -34,6 +34,13 @@
 
 void model::bind(GLuint LightID, camera cameraAtual) {
 
+	if (flag == 0) {
+		firstMatrix = ModelMatrix;
+		firstTransformation = transformation;
+	}
+
+	flag++;
+
 	cameraAtual.bind();
 	ModelMatrix = glm::mat4(1.0) * transformation;
 
@@ -276,4 +283,8 @@ glm::mat4 model::getModelMatrix() {
 
 void model::setModelMatrix(glm::mat4 modelMatrix) {
 	ModelMatrix = modelMatrix;
+}
+
+void model::setTransformation(glm::mat4 Transformation) {
+	transformation = Transformation;
 }

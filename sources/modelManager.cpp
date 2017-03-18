@@ -72,10 +72,16 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 		started = true;
 	}
 
+	if (started == false) {
+		if (glfwGetKey(g_pWindow, GLFW_KEY_R)) {
+			resetGame();
+		}
+	}
+
 	if(started)
 		gameControl(g_pWindow);
 
-	if (transformando == 0 && transformandoCamera == 0) {
+	/*if (transformando == 0 && transformandoCamera == 0) {
 		if (currentTime - initialTime >= 0.01) {
 			if (glfwGetKey(g_pWindow, GLFW_KEY_D)) {
 				transformation.x = translacao.x;
@@ -216,7 +222,7 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 				}
 			}
 		}
-	}
+	}*/
 
 	seconds = 1;
 
@@ -332,7 +338,7 @@ void modelManager::criaCamera() {
 }
 
 void modelManager::gameControl(GLFWwindow* g_pWindow) {
-	
+
 	if (started) {
 		if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT)) {
 			if (limite <= 12) {
@@ -386,7 +392,22 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			//std::cout << "Terceiro caso - side: " << sideBorder << std::endl;
 			up = true;
 			down = false;
-			started = false;
+			lives--;
+			if(lives < 0)
+				started = false;
+			else {
+				std::cout << "Perdeu vida\n";
+				glm::mat4 inicialPosition = glm::translate(inicialPosition, 0.0f, -6.0f, 0.0f);
+				models.at(0).setModelMatrix(models.at(0).firstMatrix);
+				models.at(0).setTransformation(models.at(0).firstTransformation);
+				sideBorder = 0;
+				upBorder = 0;
+				up = true;
+				down = false;
+				left = false;
+				right = true;
+				return;
+			}
 		}
 		//Caso em que a bola chegou na borda direita
 		else if (sideBorder <= 13.3 && sideBorder >= -13.3 && right) {
@@ -423,7 +444,6 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 		//std::cout << "Fora do caso - side: " << sideBorder << std::endl;
 
 	}
-	//std::cout << models.at(0).getPosition().x << " | " << models.at(0).getPosition().y << " | " << models.at(0).getPosition().z << std::endl;
 
 	if (naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(1).getPosition(), meshes.at(1).getSize())) {
 		std::cout << "Colisão!" << std::endl;
@@ -433,16 +453,6 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 		upBorder += yMoviment;
 		sideBorder += xMoviment;
 	}
-	//if (models.size() > 2 && models.at(2).destroyed == 0 && naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(2).getPosition(), meshes.at(2).getSize())) {
-	//	std::cout << "Colisão 2" << std::endl;
-	//	transformation.x = 0.0;
-	//	transformation.y = 0.0;
-	//	transformation.z = 0.0;
-	//	transformation.transformationID = 1;
-	//	models.at(2).addTransformation(transformation);
-	//	models.at(2).destroyed = 1;
-	//	//models.erase(models.begin() +2);
-	//}
 
 	int i = 2;
 	if (models.size() > 2) {
@@ -455,6 +465,7 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 				transformation.transformationID = 1;
 				models.at(i).addTransformation(transformation);
 				models.at(i).destroyed = 1;
+				points++; //Atualiza pontos
 				if (xMoviment > 0) {
 					sideBorder -= xMoviment;
 					if (yMoviment > 0) {
@@ -498,7 +509,10 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 			//models.erase(models.begin() +2);
 		}
 	}
-
+	if (points == models.size() - 2) {
+		started = false; //Ganhou o jogo
+		std::cout << "Parabens, voce venceu o jogo! \n";
+	}
 }
 
 /* -- Colisões -- */
@@ -528,4 +542,121 @@ GLboolean modelManager::naraujoCheckCollision(glm::vec3 positionA, glm::vec3 siz
 
 	//std::cout << "Collision X = " << collisionX << " | Collision Y = " << collisionY << std::endl;
 	return collisionX && collisionY && collisionZ;
+}
+
+void modelManager::resetGame() {
+
+	models.clear();
+	points = 0;
+	lives = 2;
+
+	//Adiciona bola
+	addMesh("mesh/sphere.obj");
+	glm::vec3 posicao(0.0f, -6.0f, 0.0f);
+	addModel(programID, "mesh/uvmap.DDS", posicao, 0);
+	getModel().at(0).setShaderParameters(0.9, 0.1, 0.1, 0.8, 0.8, 0.2);
+
+	//Adiciona cubo
+	addMesh("mesh/cube.obj");
+	posicao.y = -8.0f;
+	addModel(programID, "mesh/goose.dds", posicao, 1);
+	getModel().at(1).setShaderParameters(0.5, 0.3, 0.8, 0.5, 0.6, 0.5);
+
+	for(int i = 0; i < 6; i++)
+		level[i] = false ;
+
+	addBricks();
+}
+
+void modelManager::addBricks() {
+	glm::vec3 posicao;
+	if (dificuldade > 0 && level[0] == false) {
+		std::cout << "Dificuldade\n";
+		//Adiciona cubo
+		addMesh("mesh/cube.obj");
+		posicao.y = -1.0f;
+		addModel(programID, "mesh/goose.dds", posicao, 1);
+		getModel().at(2).setShaderParameters(0.1, 0.1, 0.4, 0.5, 0.6, 0.5);
+		level[0] = true;
+	}
+	if (dificuldade > 1 && level[0] == true && level[1] == false) {
+		posicao.x = -2.0f;
+		for (int i = 3; i < 6; i++) {
+			std::cout << "Dificuldade\n";
+			//Adiciona cubo
+			addMesh("mesh/cube.obj");
+			posicao.y = 1.0f;
+			posicao.x += 1.0f;
+			addModel(programID, "mesh/goose.dds", posicao, 1);
+			if (i % 2 == 0)
+				getModel().at(i).setShaderParameters(0.3, 0.1, 0.4, 0.5, 0.6, 0.5);
+			else
+				getModel().at(i).setShaderParameters(0.4, 0.1, 0.3, 0.5, 0.6, 0.5);
+			level[1] = true;
+		}
+	}
+	if (dificuldade > 2 && level[0] == true && level[1] == true && level[2] == false) {
+		posicao.x = -4.0f;
+		for (int i = 6; i < 13; i++) {
+			std::cout << "Dificuldade\n";
+			//Adiciona cubo
+			addMesh("mesh/cube.obj");
+			posicao.y = 3.0f;
+			posicao.x += 1.0f;
+			addModel(programID, "mesh/goose.dds", posicao, 1);
+			if (i % 2 == 0)
+				getModel().at(i).setShaderParameters(0.5, 0.2, 0.4, 0.5, 0.6, 0.5);
+			else
+				getModel().at(i).setShaderParameters(0.4, 0.2, 0.5, 0.5, 0.6, 0.5);
+			level[2] = true;
+		}
+	}
+	if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == false) {
+		posicao.x = -7.0f;
+		for (int i = 13; i < 26; i++) {
+			std::cout << "Dificuldade\n";
+			//Adiciona cubo
+			addMesh("mesh/cube.obj");
+			posicao.y = 5.0f;
+			posicao.x += 1.0f;
+			addModel(programID, "mesh/goose.dds", posicao, 1);
+			if (i % 2 == 0)
+				getModel().at(i).setShaderParameters(0.7, 0.2, 0.2, 0.5, 0.6, 0.5);
+			else
+				getModel().at(i).setShaderParameters(0.2, 0.2, 0.7, 0.5, 0.6, 0.5);
+			level[3] = true;
+		}
+	}
+	if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == false) {
+		posicao.x = -11.0f;
+		for (int i = 26; i < 47; i++) {
+			std::cout << "Dificuldade\n";
+			//Adiciona cubo
+			addMesh("mesh/cube.obj");
+			posicao.y = 7.0f;
+			posicao.x += 1.0f;
+			addModel(programID, "mesh/goose.dds", posicao, 1);
+			if (i % 2 == 0)
+				getModel().at(i).setShaderParameters(0.8, 0.1, 0.1, 0.5, 0.6, 0.5);
+			else
+				getModel().at(i).setShaderParameters(0.1, 0.1, 0.8, 0.5, 0.6, 0.5);
+			level[4] = true;
+		}
+	}
+	if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == true && level[5] == false) {
+		posicao.x = -13.0f;
+		for (int i = 47; i < 73; i++) {
+			std::cout << "Dificuldade\n";
+			//Adiciona cubo
+			addMesh("mesh/cube.obj");
+			posicao.y = 9.0f;
+			posicao.x += 1.0f;
+			addModel(programID, "mesh/goose.dds", posicao, 1);
+			if (i % 2 == 0)
+				getModel().at(i).setShaderParameters(1.0, 0.0, 0.0, 0.5, 0.6, 0.5);
+			else
+				getModel().at(i).setShaderParameters(0.0, 0.0, 1.0, 0.5, 0.6, 0.5);
+			level[5] = true;
+		}
+	}
 }
