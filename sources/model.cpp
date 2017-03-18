@@ -269,7 +269,10 @@ void model::ballSize(glm::vec3 size) {
 }
 
 void model::ballMoviment(float xMoviment, float yMoviment) {
-	transformation = glm::translate(transformation, glm::vec3(xMoviment, yMoviment, 0.0f));
+	if (glfwGetTime() > lastMoviment + 0.001) {
+		transformation = glm::translate(transformation, glm::vec3(xMoviment, yMoviment, 0.0f));
+		lastMoviment = glfwGetTime();
+	}
 }
 
 glm::vec3 model::getPosition()

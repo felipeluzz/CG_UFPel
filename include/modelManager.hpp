@@ -109,6 +109,10 @@ public:
 		//TwAddVarRW(g_pToolBar, "Modelo", TW_TYPE_INT8, &modelN, " label='Modelo Atual' min = 0.0");
 		//Adiciona "dificuldade a barra"
 		TwAddVarRW(g_pToolBar, "Dificuldade", TW_TYPE_INT16, &dificuldade, "label = 'Dificuldade'");
+		//Adiciona pontos a barra
+		TwAddVarRO(g_pToolBar, "Pontos", TW_TYPE_INT16, &points, "label = 'Pontuação'");
+		//Adiciona vidas a barra
+		TwAddVarRO(g_pToolBar, "Vidas", TW_TYPE_INT16, &lives, "label = 'Vidas restantes'");
 		camera camera1(programID);
 		cameras.push_back(camera1);
 

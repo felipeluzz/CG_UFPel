@@ -96,7 +96,8 @@ int main(void)
 	glfwSetWindowSizeCallback(g_pWindow, WindowSizeCallBack);
 
 	//create the toolbar
-	g_pToolBar = TwNewBar("CG UFPel ToolBar");
+	g_pToolBar = TwNewBar("Breakout");
+	TwDefine(" g_pToolBar size='10 20' ");
 
 
 	//Adiciona novo model

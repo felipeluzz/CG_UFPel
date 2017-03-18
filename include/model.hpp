@@ -70,6 +70,8 @@ public:
 	int flag = 0;
 	glm::mat4 firstMatrix;
 	glm::mat4 firstTransformation;
+	double lastMoviment = glfwGetTime();
+	double movimentTime = 0.5;
 	
 public: 
 	model(GLuint programID, const char* textura, glm::vec3 posicao, int mID) {
