@@ -78,8 +78,10 @@ void modelManager::draw(GLFWwindow* g_pWindow, GLuint LightID) {
 		}
 	}
 
-	if(started)
+	if (started && (glfwGetTime() > lastGameTime + stepTime)) {
 		gameControl(g_pWindow);
+		lastGameTime = glfwGetTime();
+	}
 
 	/*if (transformando == 0 && transformandoCamera == 0) {
 		if (currentTime - initialTime >= 0.01) {
@@ -340,18 +342,19 @@ void modelManager::criaCamera() {
 void modelManager::gameControl(GLFWwindow* g_pWindow) {
 
 	if (started) {
+		//std::cout << "Side Border: " << sideBorder << "Up Border: " << upBorder << std::endl;
 		if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT)) {
 			if (limite <= 12) {
-				glm::vec3 moviment(-0.1f, 0.0f, 0.0f);
-				limite += 0.1;
+				glm::vec3 moviment(-blockMoviment, 0.0f, 0.0f);
+				limite += blockMoviment;
 				models.at(1).arrowMoviment(moviment);
 			}
 		}
 
 		if (glfwGetKey(g_pWindow, GLFW_KEY_RIGHT)) {
 			if (limite >= -12) {
-				glm::vec3 moviment(0.1f, 0.0f, 0.0f);
-				limite -= 0.1;
+				glm::vec3 moviment(blockMoviment, 0.0f, 0.0f);
+				limite -= blockMoviment;
 				models.at(1).arrowMoviment(moviment);
 			}
 		}
@@ -386,17 +389,19 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 				models.at(0).ballMoviment(-xMoviment, -yMoviment);
 			}
 		}
-		//Caso em que a bola chegou na borda de baixo, reseta flags, permitindo assim a volta para o caso base
-		else if (upBorder <= 15.0 && upBorder >= -3.6 && sideBorder <= 13.0 && sideBorder >= -13.0) {
+		//Caso em que a bola chegou na borda de baixo, perdeu
+		else if (upBorder <= 15.0 && upBorder >= -3.9 && sideBorder <= 13.0 && sideBorder >= -13.0) {
 			//std::cout << "Terceiro caso - up: " << upBorder << std::endl;
 			//std::cout << "Terceiro caso - side: " << sideBorder << std::endl;
 			up = true;
 			down = false;
 			lives--;
-			if(lives < 0)
+			if (lives < 0) {
 				started = false;
+				std::cout << "\nVoce perdeu o jogo! Aperte R para reiniciar" << std::endl;
+			}
 			else {
-				std::cout << "Perdeu vida\n";
+				//std::cout << "Perdeu vida\n";
 				glm::mat4 inicialPosition = glm::translate(inicialPosition, 0.0f, -6.0f, 0.0f);
 				models.at(0).setModelMatrix(models.at(0).firstMatrix);
 				models.at(0).setTransformation(models.at(0).firstTransformation);
@@ -441,12 +446,12 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 				models.at(0).ballMoviment(xMoviment, -yMoviment);
 			}
 		}
-		//std::cout << "Fora do caso - side: " << sideBorder << std::endl;
+		//std::cout << "Fora do caso - side: " << sideBorder << "up: " << upBorder << std::endl;
 
 	}
 
 	if (naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(1).getPosition(), meshes.at(1).getSize())) {
-		std::cout << "Colisão!" << std::endl;
+		//std::cout << "Colisão!" << std::endl;
 		models.at(0).ballMoviment(xMoviment, yMoviment);
 		up = true;
 		down = false;
@@ -458,7 +463,7 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 	if (models.size() > 2) {
 		for (auto it = models.begin() + 2; it != models.end(); ++it) {
 			if (models.at(i).destroyed == 0 && naraujoCheckCollision(models.at(0).getPosition(), meshes.at(0).getSize(), models.at(i).getPosition(), meshes.at(i).getSize())) {
-				std::cout << "Colisão 2" << std::endl;
+				//std::cout << "Colisão 2" << std::endl;
 				transformation.x = 0.0;
 				transformation.y = 0.0;
 				transformation.z = 0.0;
@@ -511,7 +516,7 @@ void modelManager::gameControl(GLFWwindow* g_pWindow) {
 	}
 	if (points == models.size() - 2) {
 		started = false; //Ganhou o jogo
-		std::cout << "Parabens, voce venceu o jogo! \n";
+		std::cout << "\nParabens, voce venceu o jogo! Aperte R para reiniciar \n";
 	}
 }
 
@@ -549,6 +554,9 @@ void modelManager::resetGame() {
 	models.clear();
 	points = 0;
 	lives = 2;
+	upBorder = 0;
+	sideBorder = 0;
+	limite = 0;
 
 	//Adiciona bola
 	addMesh("mesh/sphere.obj");
@@ -571,7 +579,7 @@ void modelManager::resetGame() {
 void modelManager::addBricks() {
 	glm::vec3 posicao;
 	if (dificuldade > 0 && level[0] == false) {
-		std::cout << "Dificuldade\n";
+		//std::cout << "Dificuldade\n";
 		//Adiciona cubo
 		addMesh("mesh/cube.obj");
 		posicao.y = -1.0f;
@@ -582,7 +590,7 @@ void modelManager::addBricks() {
 	if (dificuldade > 1 && level[0] == true && level[1] == false) {
 		posicao.x = -2.0f;
 		for (int i = 3; i < 6; i++) {
-			std::cout << "Dificuldade\n";
+			//std::cout << "Dificuldade\n";
 			//Adiciona cubo
 			addMesh("mesh/cube.obj");
 			posicao.y = 1.0f;
@@ -598,7 +606,7 @@ void modelManager::addBricks() {
 	if (dificuldade > 2 && level[0] == true && level[1] == true && level[2] == false) {
 		posicao.x = -4.0f;
 		for (int i = 6; i < 13; i++) {
-			std::cout << "Dificuldade\n";
+			//std::cout << "Dificuldade\n";
 			//Adiciona cubo
 			addMesh("mesh/cube.obj");
 			posicao.y = 3.0f;
@@ -614,7 +622,7 @@ void modelManager::addBricks() {
 	if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == false) {
 		posicao.x = -7.0f;
 		for (int i = 13; i < 26; i++) {
-			std::cout << "Dificuldade\n";
+			//std::cout << "Dificuldade\n";
 			//Adiciona cubo
 			addMesh("mesh/cube.obj");
 			posicao.y = 5.0f;
@@ -627,10 +635,10 @@ void modelManager::addBricks() {
 			level[3] = true;
 		}
 	}
-	if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == false) {
+	if (dificuldade > 4 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == false) {
 		posicao.x = -11.0f;
 		for (int i = 26; i < 47; i++) {
-			std::cout << "Dificuldade\n";
+			//std::cout << "Dificuldade\n";
 			//Adiciona cubo
 			addMesh("mesh/cube.obj");
 			posicao.y = 7.0f;
@@ -643,10 +651,10 @@ void modelManager::addBricks() {
 			level[4] = true;
 		}
 	}
-	if (dificuldade > 3 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == true && level[5] == false) {
+	if (dificuldade > 5 && level[0] == true && level[1] == true && level[2] == true && level[3] == true && level[4] == true && level[5] == false) {
 		posicao.x = -13.0f;
 		for (int i = 47; i < 73; i++) {
-			std::cout << "Dificuldade\n";
+			//std::cout << "Dificuldade\n";
 			//Adiciona cubo
 			addMesh("mesh/cube.obj");
 			posicao.y = 9.0f;

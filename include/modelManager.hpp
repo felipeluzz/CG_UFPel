@@ -69,12 +69,15 @@ class modelManager {
 	bool down = false;
 	bool left = false;
 	bool right = false;
-	float xMoviment = 0.03;
-	float yMoviment = 0.1;
+	float xMoviment = 0.03*2;
+	float yMoviment = 0.1*2;
 	int points = 0;
 	int lives = 2;
 	int dificuldade = 0;
 	bool level[6] = { false };
+	double stepTime = 0.025;
+	double lastGameTime = glfwGetTime();
+	double blockMoviment = 0.2;
 
 public:
 

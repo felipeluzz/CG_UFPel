@@ -176,6 +176,12 @@ int main(void)
 	std::cout << "\nPressione G para executar as transformações contidas na fila";
 	std::cout << "\nOBS: Para as curvas, a fila deve possuir apenas os pontos dela, sem nenhum outro tipo de transformação";*/
 
+	std::cout << "\n\n\n";
+	std::cout << "Bem vindo ao jogo Breakout!" << std::endl;
+	std::cout << "\tSelecione uma dificuldade, de 0 a 6, e aperte D para escolhe-la" << std::endl;
+	std::cout << "\tAperte SPACE para iniciar o jogo!" << std::endl;
+	std::cout << "\tControle o bloco com as setas do teclado" << std::endl;
+
 	int meshCount = 0;
 	modelManager ModelManager(g_pToolBar, programID);
 	//Adiciona bola
@@ -183,7 +189,7 @@ int main(void)
 	glm::vec3 posicao(0.0f, -6.0f, 0.0f);
 	ModelManager.addModel(programID, "mesh/uvmap.DDS", posicao, 0);
 	ModelManager.getModel().at(0).setShaderParameters(0.9, 0.1, 0.1, 0.8, 0.8, 0.2);
-	std::cout << "Posicao inicial: " << ModelManager.getModel().at(0).getModelMatrix()[3][0] << " | " << ModelManager.getModel().at(0).getModelMatrix()[3][1] << " | " << ModelManager.getModel().at(0).getModelMatrix()[3][2] << std::endl;
+	//std::cout << "Posicao inicial: " << ModelManager.getModel().at(0).getModelMatrix()[3][0] << " | " << ModelManager.getModel().at(0).getModelMatrix()[3][1] << " | " << ModelManager.getModel().at(0).getModelMatrix()[3][2] << std::endl;
 	
 	//Adiciona cubo
 	ModelManager.addMesh("mesh/cube.obj");
@@ -250,7 +256,7 @@ int main(void)
 		//}
 
 		if (glfwGetKey(g_pWindow, GLFW_KEY_D) == GLFW_PRESS) {
-			std::cout << "addBricks chamado\n";
+			//std::cout << "addBricks chamado\n";
 			ModelManager.addBricks();
 		}
 
